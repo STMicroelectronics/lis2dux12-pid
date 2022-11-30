@@ -2511,19 +2511,9 @@ int32_t lis2dux12_fsm_enable_get(stmdev_ctx_t *ctx,
 int32_t lis2dux12_long_cnt_set(stmdev_ctx_t *ctx, uint16_t val);
 int32_t lis2dux12_long_cnt_get(stmdev_ctx_t *ctx, uint16_t *val);
 
-typedef struct
-{
-  lis2dux12_fsm_outs1_t    fsm_outs1;
-  lis2dux12_fsm_outs2_t    fsm_outs2;
-  lis2dux12_fsm_outs3_t    fsm_outs3;
-  lis2dux12_fsm_outs4_t    fsm_outs4;
-  lis2dux12_fsm_outs5_t    fsm_outs5;
-  lis2dux12_fsm_outs6_t    fsm_outs6;
-  lis2dux12_fsm_outs7_t    fsm_outs7;
-  lis2dux12_fsm_outs8_t    fsm_outs8;
-} lis2dux12_fsm_out_t;
-int32_t lis2dux12_fsm_out_get(stmdev_ctx_t *ctx,
-                               lis2dux12_fsm_out_t *val);
+int32_t lis2dux12_fsm_status_get(stmdev_ctx_t *ctx,
+                                  lis2dux12_fsm_status_mainpage_t *val);
+int32_t lis2dux12_fsm_out_get(stmdev_ctx_t *ctx, uint8_t *val);
 
 typedef enum
 {
