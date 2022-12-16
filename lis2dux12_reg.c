@@ -3361,7 +3361,7 @@ int32_t lis2dux12_mlc_set(stmdev_ctx_t *ctx, lis2dux12_mlc_mode_t val)
         break;
       case LIS2DUX12_MLC_ON_BEFORE_FSM:
         emb_en_a.mlc_before_fsm_en = 1;
-        emb_en_b.mlc_en = 1;
+        emb_en_b.mlc_en = 0;
         break;
       default:
         break;
