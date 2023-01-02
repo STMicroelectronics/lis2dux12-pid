@@ -827,7 +827,10 @@ int32_t lis2dux12_mem_bank_get(stmdev_ctx_t *ctx, lis2dux12_mem_bank_t *val)
   * @brief  Write buffer in a page.
   *
   * @param  ctx      read / write interface definitions
-  * @param  val      Write buffer in a page.
+  * @param  address  Address of page register to be written (page number in 8-bit
+  *                  msb, register address in 8-bit lsb).
+  * @param  buf      Pointer to data buffer.
+  * @param  len      Buffer len.
   * @retval          interface status (MANDATORY: return 0 -> no Error)
   *
   */
@@ -896,7 +899,10 @@ int32_t lis2dux12_ln_pg_write(stmdev_ctx_t *ctx, uint16_t address, uint8_t *buf,
   * @brief  Read buffer in a page.
   *
   * @param  ctx      read / write interface definitions
-  * @param  val      Write buffer in a page.
+  * @param  address  Address of page register to be read (page number in 8-bit
+  *                  msb, register address in 8-bit lsb).
+  * @param  buf      Pointer to data buffer.
+  * @param  len      Buffer len.
   * @retval          interface status (MANDATORY: return 0 -> no Error)
   *
   */
