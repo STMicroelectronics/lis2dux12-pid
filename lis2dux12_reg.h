@@ -2271,7 +2271,7 @@ int32_t lis2dux12_emb_pin_int2_route_get(stmdev_ctx_t *ctx,
                                           lis2dux12_emb_pin_int_route_t *val);
 
 typedef struct {
-  enum int_cfg
+  enum lis2dux12_int_cfg
   {
     LIS2DUX12_INT_DISABLED             = 0x0,
     LIS2DUX12_INT_LEVEL                = 0x1,
@@ -2292,7 +2292,7 @@ int32_t lis2dux12_embedded_int_config_set(stmdev_ctx_t *ctx, lis2dux12_embedded_
 int32_t lis2dux12_embedded_int_config_get(stmdev_ctx_t *ctx, lis2dux12_embedded_int_config_t *val);
 
 typedef struct {
-  enum operation
+  enum lis2dux12_operation
   {
     LIS2DUX12_BYPASS_MODE              = 0x0,
     LIS2DUX12_FIFO_MODE                = 0x1,
@@ -2302,7 +2302,7 @@ typedef struct {
     LIS2DUX12_BYPASS_TO_FIFO_MODE      = 0x7,
     LIS2DUX12_FIFO_OFF                 = 0x8,
   } operation;
-  enum store {
+  enum lis2dux12_store {
     LIS2DUX12_FIFO_1X                  = 0,
     LIS2DUX12_FIFO_2X                  = 1,
   } store;
@@ -2310,14 +2310,14 @@ typedef struct {
   uint8_t watermark                    : 7; /* (0 disable) max 127 @16bit, even and max 256 @8bit.*/
   uint8_t cfg_change_in_fifo           : 1;
   struct {
-    enum dec_ts
+    enum lis2dux12_dec_ts
     {
       LIS2DUX12_DEC_TS_OFF             = 0x0,
       LIS2DUX12_DEC_TS_1               = 0x1,
       LIS2DUX12_DEC_TS_8               = 0x2,
       LIS2DUX12_DEC_TS_32              = 0x3,
     } dec_ts; /* decimation for timestamp batching*/
-    enum bdr_xl
+    enum lis2dux12_bdr_xl
     {
       LIS2DUX12_BDR_XL_ODR             = 0x0,
       LIS2DUX12_BDR_XL_ODR_DIV_2       = 0x1,
@@ -2359,15 +2359,15 @@ typedef struct {
     float_t mg[3];
     int16_t raw[3];
   }xl[2];
-  struct heat {
+  struct lis2dux12_heat {
     float_t deg_c;
     int16_t raw;
   } heat;
-  struct pedo {
+  struct lis2dux12_pedo {
     uint32_t steps;
     uint32_t timestamp;
   } pedo;
-  struct cfg_chg {
+  struct lis2dux12_cfg_chg {
     uint8_t cfg_change                 : 1; /* 1 if ODR/BDR configuration is changed */
     uint8_t odr                        : 4; /* ODR */
     uint8_t bw                         : 2; /* BW */
@@ -2426,14 +2426,14 @@ int32_t lis2dux12_ff_thresholds_set(stmdev_ctx_t *ctx, lis2dux12_ff_thresholds_t
 int32_t lis2dux12_ff_thresholds_get(stmdev_ctx_t *ctx, lis2dux12_ff_thresholds_t *val);
 
 typedef struct {
-  enum threshold
+  enum lis2dux12_threshold
   {
     LIS2DUX12_DEG_80 = 0x0,
     LIS2DUX12_DEG_70 = 0x1,
     LIS2DUX12_DEG_60 = 0x2,
     LIS2DUX12_DEG_50 = 0x3,
   } threshold;
-  enum mode
+  enum lis2dux12_mode
   {
     LIS2DUX12_6D = 0x0,
     LIS2DUX12_4D = 0x1,
@@ -2444,7 +2444,7 @@ int32_t lis2dux12_sixd_config_set(stmdev_ctx_t *ctx, lis2dux12_sixd_config_t val
 int32_t lis2dux12_sixd_config_get(stmdev_ctx_t *ctx, lis2dux12_sixd_config_t *val);
 
 typedef struct {
-  enum wake_dur
+  enum lis2dux12_wake_dur
   {
     LIS2DUX12_0_ODR  = 0x000, /* 0 ODR time */
     LIS2DUX12_1_ODR  = 0x001, /* 1 ODR time */
@@ -2457,12 +2457,12 @@ typedef struct {
   uint8_t sleep_dur                    : 4;       /* 1 LSB == 512 ODR time */
   uint8_t wake_ths                     : 7;       /* wakeup threshold */
   uint8_t wake_ths_weight              : 1;       /* 0: 1LSB = FS_XL/2^6, 1: 1LSB = FS_XL/2^8 */
-  enum wake_enable
+  enum lis2dux12_wake_enable
   {
     LIS2DUX12_SLEEP_OFF = 0,
     LIS2DUX12_SLEEP_ON  = 1,
   } wake_enable;
-  enum inact_odr
+  enum lis2dux12_inact_odr
   {
     LIS2DUX12_ODR_NO_CHANGE       = 0,  /* no odr change during inactivity state */
     LIS2DUX12_ODR_1_6_HZ          = 1,  /* set odr to 1.6Hz during inactivity state */
@@ -2475,7 +2475,7 @@ int32_t lis2dux12_wakeup_config_set(stmdev_ctx_t *ctx, lis2dux12_wakeup_config_t
 int32_t lis2dux12_wakeup_config_get(stmdev_ctx_t *ctx, lis2dux12_wakeup_config_t *val);
 
 typedef struct {
-  enum axis
+  enum lis2dux12_axis
   {
     LIS2DUX12_TAP_NONE  = 0x0, /* No axis */
     LIS2DUX12_TAP_ON_X  = 0x1, /* Detect tap on X axis */
