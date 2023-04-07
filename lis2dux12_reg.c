@@ -316,7 +316,77 @@ int32_t lis2dux12_mode_set(stmdev_ctx_t *ctx, lis2dux12_md_t *val)
 
   ctrl5.odr = (uint8_t)val->odr & 0xFU;
   ctrl5.fs = (uint8_t)val->fs;
-  ctrl5.bw = (uint8_t)val->bw;
+
+  /* set the bandwidth */
+  switch (val->odr) {
+    /* no anti-aliasing filter present */
+    case LIS2DUX12_OFF:
+    case LIS2DUX12_1Hz5_ULP:
+    case LIS2DUX12_3Hz_ULP:
+    case LIS2DUX12_25Hz_ULP:
+      ctrl5.bw = 0x0;
+      break;
+
+    /* low-power mode with ODR < 50 Hz */
+    case LIS2DUX12_6Hz_LP:
+      switch(val->bw) {
+        case LIS2DUX12_ODR_div_4:
+        case LIS2DUX12_ODR_div_8:
+        case LIS2DUX12_ODR_div_16:
+          return -1;
+        case LIS2DUX12_ODR_div_2:
+          ctrl5.bw = 0x3;
+          break;
+      }
+      break;
+    case LIS2DUX12_12Hz5_LP:
+      switch(val->bw) {
+        case LIS2DUX12_ODR_div_8:
+        case LIS2DUX12_ODR_div_16:
+          return -1;
+        case LIS2DUX12_ODR_div_2:
+          ctrl5.bw = 0x2;
+          break;
+        case LIS2DUX12_ODR_div_4:
+          ctrl5.bw = 0x3;
+          break;
+      }
+      break;
+    case LIS2DUX12_25Hz_LP:
+      switch(val->bw) {
+        case LIS2DUX12_ODR_div_16:
+          return -1;
+        case LIS2DUX12_ODR_div_2:
+          ctrl5.bw = 0x1;
+          break;
+        case LIS2DUX12_ODR_div_4:
+          ctrl5.bw = 0x2;
+          break;
+        case LIS2DUX12_ODR_div_8:
+          ctrl5.bw = 0x3;
+          break;
+      }
+      break;
+
+    /* standard cases */
+    case LIS2DUX12_50Hz_LP:
+    case LIS2DUX12_100Hz_LP:
+    case LIS2DUX12_200Hz_LP:
+    case LIS2DUX12_400Hz_LP:
+    case LIS2DUX12_800Hz_LP:
+    case LIS2DUX12_TRIG_PIN:
+    case LIS2DUX12_TRIG_SW:
+    case LIS2DUX12_6Hz_HP:
+    case LIS2DUX12_12Hz5_HP:
+    case LIS2DUX12_25Hz_HP:
+    case LIS2DUX12_50Hz_HP:
+    case LIS2DUX12_100Hz_HP:
+    case LIS2DUX12_200Hz_HP:
+    case LIS2DUX12_400Hz_HP:
+    case LIS2DUX12_800Hz_HP:
+      ctrl5.bw = (uint8_t)val->bw;
+      break;
+  }
 
   ret += lis2dux12_read_reg(ctx, LIS2DUX12_CTRL3, (uint8_t*)&ctrl3, 1);
 
