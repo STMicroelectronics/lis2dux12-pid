@@ -2082,19 +2082,17 @@ int32_t lis2dux12_data_ready_mode_get(stmdev_ctx_t *ctx, lis2dux12_data_ready_mo
 typedef struct {
   enum {
     LIS2DUX12_OFF               = 0x00, /* in power down */
-    LIS2DUX12_1Hz5_ULP          = 0x01, /* @1Hz6 (low power) */
-    LIS2DUX12_3Hz_ULP           = 0x02, /* @3Hz (ultra low) */
-    LIS2DUX12_25Hz_ULP          = 0x03, /* @25Hz (ultra low) */
-    LIS2DUX12_6Hz               = 0x04, /* @6Hz (low power) */
-    LIS2DUX12_12Hz5             = 0x05, /* @12Hz5 (low power) */
-    LIS2DUX12_25Hz              = 0x06, /* @25Hz  (low power ) */
-    LIS2DUX12_50Hz              = 0x07, /* @50Hz  (low power) */
-    LIS2DUX12_100Hz             = 0x08, /* @100Hz (low power) */
-    LIS2DUX12_200Hz             = 0x09, /* @200Hz (low power) */
-    LIS2DUX12_400Hz             = 0x0A, /* @400Hz (low power) */
-    LIS2DUX12_800Hz             = 0x0B, /* @800Hz (low power) */
-    LIS2DUX12_TRIG_PIN          = 0x0E, /* Single-shot high latency by INT2 */
-    LIS2DUX12_TRIG_SW           = 0x0F, /* Single-shot high latency by IF */
+    LIS2DUX12_1Hz5_ULP          = 0x01, /* @1Hz6 (ultra low power) */
+    LIS2DUX12_3Hz_ULP           = 0x02, /* @3Hz (ultra low power) */
+    LIS2DUX12_25Hz_ULP          = 0x03, /* @25Hz (ultra low power) */
+    LIS2DUX12_6Hz_LP            = 0x04, /* @6Hz (low power) */
+    LIS2DUX12_12Hz5_LP          = 0x05, /* @12Hz5 (low power) */
+    LIS2DUX12_25Hz_LP           = 0x06, /* @25Hz  (low power ) */
+    LIS2DUX12_50Hz_LP           = 0x07, /* @50Hz  (low power) */
+    LIS2DUX12_100Hz_LP          = 0x08, /* @100Hz (low power) */
+    LIS2DUX12_200Hz_LP          = 0x09, /* @200Hz (low power) */
+    LIS2DUX12_400Hz_LP          = 0x0A, /* @400Hz (low power) */
+    LIS2DUX12_800Hz_LP          = 0x0B, /* @800Hz (low power) */
     LIS2DUX12_6Hz_HP            = 0x14, /* @6Hz (high performance) */
     LIS2DUX12_12Hz5_HP          = 0x15, /* @12Hz5 (high performance) */
     LIS2DUX12_25Hz_HP           = 0x16, /* @25Hz  (high performance ) */
@@ -2103,6 +2101,8 @@ typedef struct {
     LIS2DUX12_200Hz_HP          = 0x19, /* @200Hz (high performance) */
     LIS2DUX12_400Hz_HP          = 0x1A, /* @400Hz (high performance) */
     LIS2DUX12_800Hz_HP          = 0x1B, /* @800Hz (high performance) */
+    LIS2DUX12_TRIG_PIN          = 0x2E, /* Single-shot high latency by INT2 */
+    LIS2DUX12_TRIG_SW           = 0x2F, /* Single-shot high latency by IF */
   } odr;
   enum {
     LIS2DUX12_2g   = 0,

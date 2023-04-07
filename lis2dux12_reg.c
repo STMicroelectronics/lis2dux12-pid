@@ -320,7 +320,7 @@ int32_t lis2dux12_mode_set(stmdev_ctx_t *ctx, lis2dux12_md_t *val)
 
   ret += lis2dux12_read_reg(ctx, LIS2DUX12_CTRL3, (uint8_t*)&ctrl3, 1);
 
-  ctrl3.hp_en = (((uint8_t)val->odr & 0x10U) != 0U) ? 1U : 0U;
+  ctrl3.hp_en = (((uint8_t)val->odr & 0x30U) == 0x10U) ? 1U : 0U;
 
   if (ret == 0) {
     ret = lis2dux12_write_reg(ctx, LIS2DUX12_CTRL5, (uint8_t*)&ctrl5, 1);
@@ -360,29 +360,29 @@ int32_t lis2dux12_mode_get(stmdev_ctx_t *ctx, lis2dux12_md_t *val)
     case LIS2DUX12_25Hz_ULP:
       val->odr = LIS2DUX12_25Hz_ULP;
       break;
-    case LIS2DUX12_6Hz:
-      val->odr = LIS2DUX12_6Hz;
+    case LIS2DUX12_6Hz_LP:
+      val->odr = LIS2DUX12_6Hz_LP;
       break;
-    case LIS2DUX12_12Hz5:
-      val->odr = (ctrl3.hp_en == 0x1U) ? LIS2DUX12_12Hz5_HP : LIS2DUX12_12Hz5;
+    case LIS2DUX12_12Hz5_LP:
+      val->odr = (ctrl3.hp_en == 0x1U) ? LIS2DUX12_12Hz5_HP : LIS2DUX12_12Hz5_LP;
       break;
-    case LIS2DUX12_25Hz:
-      val->odr = (ctrl3.hp_en == 0x1U) ? LIS2DUX12_25Hz_HP : LIS2DUX12_25Hz;
+    case LIS2DUX12_25Hz_LP:
+      val->odr = (ctrl3.hp_en == 0x1U) ? LIS2DUX12_25Hz_HP : LIS2DUX12_25Hz_LP;
       break;
-    case LIS2DUX12_50Hz:
-      val->odr = (ctrl3.hp_en == 0x1U) ? LIS2DUX12_50Hz_HP : LIS2DUX12_50Hz;
+    case LIS2DUX12_50Hz_LP:
+      val->odr = (ctrl3.hp_en == 0x1U) ? LIS2DUX12_50Hz_HP : LIS2DUX12_50Hz_LP;
       break;
-    case LIS2DUX12_100Hz:
-      val->odr = (ctrl3.hp_en == 0x1U) ? LIS2DUX12_100Hz_HP : LIS2DUX12_100Hz;
+    case LIS2DUX12_100Hz_LP:
+      val->odr = (ctrl3.hp_en == 0x1U) ? LIS2DUX12_100Hz_HP : LIS2DUX12_100Hz_LP;
       break;
-    case LIS2DUX12_200Hz:
-      val->odr = (ctrl3.hp_en == 0x1U) ? LIS2DUX12_200Hz_HP : LIS2DUX12_200Hz;
+    case LIS2DUX12_200Hz_LP:
+      val->odr = (ctrl3.hp_en == 0x1U) ? LIS2DUX12_200Hz_HP : LIS2DUX12_200Hz_LP;
       break;
-    case LIS2DUX12_400Hz:
-      val->odr = (ctrl3.hp_en == 0x1U) ? LIS2DUX12_400Hz_HP : LIS2DUX12_400Hz;
+    case LIS2DUX12_400Hz_LP:
+      val->odr = (ctrl3.hp_en == 0x1U) ? LIS2DUX12_400Hz_HP : LIS2DUX12_400Hz_LP;
       break;
-    case LIS2DUX12_800Hz:
-      val->odr = (ctrl3.hp_en == 0x1U) ? LIS2DUX12_800Hz_HP : LIS2DUX12_800Hz;
+    case LIS2DUX12_800Hz_LP:
+      val->odr = (ctrl3.hp_en == 0x1U) ? LIS2DUX12_800Hz_HP : LIS2DUX12_800Hz_LP;
       break;
     case LIS2DUX12_TRIG_PIN:
       val->odr = LIS2DUX12_TRIG_PIN;
