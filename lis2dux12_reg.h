@@ -2082,7 +2082,7 @@ int32_t lis2dux12_data_ready_mode_get(stmdev_ctx_t *ctx, lis2dux12_data_ready_mo
 typedef struct {
   enum {
     LIS2DUX12_OFF               = 0x00, /* in power down */
-    LIS2DUX12_1Hz5_ULP          = 0x01, /* @1Hz6 (ultra low power) */
+    LIS2DUX12_1Hz6_ULP          = 0x01, /* @1Hz6 (ultra low power) */
     LIS2DUX12_3Hz_ULP           = 0x02, /* @3Hz (ultra low power) */
     LIS2DUX12_25Hz_ULP          = 0x03, /* @25Hz (ultra low power) */
     LIS2DUX12_6Hz_LP            = 0x04, /* @6Hz (low power) */
