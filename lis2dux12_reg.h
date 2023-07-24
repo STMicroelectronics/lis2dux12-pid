@@ -2546,6 +2546,9 @@ int32_t lis2dux12_fsm_data_rate_get(stmdev_ctx_t *ctx,
 int32_t lis2dux12_fsm_init_set(stmdev_ctx_t *ctx, uint8_t val);
 int32_t lis2dux12_fsm_init_get(stmdev_ctx_t *ctx, uint8_t *val);
 
+int32_t lis2dux12_fsm_fifo_en_set(stmdev_ctx_t *ctx, uint8_t val);
+int32_t lis2dux12_fsm_fifo_en_get(stmdev_ctx_t *ctx, uint8_t *val);
+
 int32_t lis2dux12_long_cnt_int_value_set(stmdev_ctx_t *ctx,
                                           uint16_t val);
 int32_t lis2dux12_long_cnt_int_value_get(stmdev_ctx_t *ctx,
@@ -2587,6 +2590,9 @@ int32_t lis2dux12_mlc_data_rate_set(stmdev_ctx_t *ctx,
                                      lis2dux12_mlc_odr_val_t val);
 int32_t lis2dux12_mlc_data_rate_get(stmdev_ctx_t *ctx,
                                      lis2dux12_mlc_odr_val_t *val);
+
+int32_t lis2dux12_mlc_fifo_en_set(stmdev_ctx_t *ctx, uint8_t val);
+int32_t lis2dux12_mlc_fifo_en_get(stmdev_ctx_t *ctx, uint8_t *val);
 
 #ifdef __cplusplus
 }

@@ -3263,6 +3263,59 @@ int32_t lis2dux12_fsm_init_get(stmdev_ctx_t *ctx, uint8_t *val)
 }
 
 /**
+  * @brief  FSM FIFO en bit.[set]
+  *
+  * @param  ctx    Read / write interface definitions.(ptr)
+  * @param  val    Change the value of fsm_fifo_en in reg LIS2DUX12_EMB_FUNC_FIFO_EN
+  * @retval        Interface status (MANDATORY: return 0 -> no Error).
+  *
+  */
+int32_t lis2dux12_fsm_fifo_en_set(stmdev_ctx_t *ctx, uint8_t val)
+{
+  lis2dux12_emb_func_fifo_en_t fifo_reg;
+  int32_t ret;
+
+  ret = lis2dux12_mem_bank_set(ctx, LIS2DUX12_EMBED_FUNC_MEM_BANK);
+
+  if (ret == 0)
+  {
+    ret = lis2dux12_read_reg(ctx, LIS2DUX12_EMB_FUNC_FIFO_EN, (uint8_t *)&fifo_reg, 1);
+    fifo_reg.fsm_fifo_en = val;
+    ret += lis2dux12_write_reg(ctx, LIS2DUX12_EMB_FUNC_FIFO_EN, (uint8_t *)&fifo_reg, 1);
+  }
+
+  ret += lis2dux12_mem_bank_set(ctx, LIS2DUX12_MAIN_MEM_BANK);
+
+  return ret;
+}
+
+/**
+  * @brief  FSM FIFO en bit.[get]
+  *
+  * @param  ctx    Read / write interface definitions.(ptr)
+  * @param  val    Get the value of fsm_fifo_en in reg LIS2DUX12_EMB_FUNC_FIFO_EN
+  * @retval        Interface status (MANDATORY: return 0 -> no Error).
+  *
+  */
+int32_t lis2dux12_fsm_fifo_en_get(stmdev_ctx_t *ctx, uint8_t *val)
+{
+  lis2dux12_emb_func_fifo_en_t fifo_reg;
+  int32_t ret;
+
+  ret = lis2dux12_mem_bank_set(ctx, LIS2DUX12_EMBED_FUNC_MEM_BANK);
+
+  if (ret == 0)
+  {
+    ret = lis2dux12_read_reg(ctx, LIS2DUX12_EMB_FUNC_FIFO_EN, (uint8_t *)&fifo_reg, 1);
+    *val = fifo_reg.fsm_fifo_en;
+  }
+
+  ret += lis2dux12_mem_bank_set(ctx, LIS2DUX12_MAIN_MEM_BANK);
+
+  return ret;
+}
+
+/**
   * @brief  FSM long counter timeout register (r/w). The long counter
   *         timeout value is an unsigned integer value (16-bit format).
   *         When the long counter value reached this value, the FSM
@@ -3611,6 +3664,59 @@ int32_t lis2dux12_mlc_data_rate_get(stmdev_ctx_t *ctx,
         *val = LIS2DUX12_ODR_PRGS_12Hz5;
         break;
     }
+  }
+
+  ret += lis2dux12_mem_bank_set(ctx, LIS2DUX12_MAIN_MEM_BANK);
+
+  return ret;
+}
+
+/**
+  * @brief  MLC FIFO en bit.[set]
+  *
+  * @param  ctx    Read / write interface definitions.(ptr)
+  * @param  val    Change the value of mlc_fifo_en in reg LIS2DUX12_EMB_FUNC_FIFO_EN
+  * @retval        Interface status (MANDATORY: return 0 -> no Error).
+  *
+  */
+int32_t lis2dux12_mlc_fifo_en_set(stmdev_ctx_t *ctx, uint8_t val)
+{
+  lis2dux12_emb_func_fifo_en_t fifo_reg;
+  int32_t ret;
+
+  ret = lis2dux12_mem_bank_set(ctx, LIS2DUX12_EMBED_FUNC_MEM_BANK);
+
+  if (ret == 0)
+  {
+    ret = lis2dux12_read_reg(ctx, LIS2DUX12_EMB_FUNC_FIFO_EN, (uint8_t *)&fifo_reg, 1);
+    fifo_reg.mlc_fifo_en = val;
+    ret += lis2dux12_write_reg(ctx, LIS2DUX12_EMB_FUNC_FIFO_EN, (uint8_t *)&fifo_reg, 1);
+  }
+
+  ret += lis2dux12_mem_bank_set(ctx, LIS2DUX12_MAIN_MEM_BANK);
+
+  return ret;
+}
+
+/**
+  * @brief  MLC FIFO en bit.[get]
+  *
+  * @param  ctx    Read / write interface definitions.(ptr)
+  * @param  val    Get the value of mlc_fifo_en in reg LIS2DUX12_EMB_FUNC_FIFO_EN
+  * @retval        Interface status (MANDATORY: return 0 -> no Error).
+  *
+  */
+int32_t lis2dux12_mlc_fifo_en_get(stmdev_ctx_t *ctx, uint8_t *val)
+{
+  lis2dux12_emb_func_fifo_en_t fifo_reg;
+  int32_t ret;
+
+  ret = lis2dux12_mem_bank_set(ctx, LIS2DUX12_EMBED_FUNC_MEM_BANK);
+
+  if (ret == 0)
+  {
+    ret = lis2dux12_read_reg(ctx, LIS2DUX12_EMB_FUNC_FIFO_EN, (uint8_t *)&fifo_reg, 1);
+    *val = fifo_reg.mlc_fifo_en;
   }
 
   ret += lis2dux12_mem_bank_set(ctx, LIS2DUX12_MAIN_MEM_BANK);
