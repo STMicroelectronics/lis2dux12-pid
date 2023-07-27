@@ -90,12 +90,23 @@ This directory contains the LIS2DUX12 component drivers.
 
 </div>
 
-<input type="checkbox" id="collapse-section6" checked aria-hidden="true">
+<input type="checkbox" id="collapse-section6" aria-hidden="true">
 <label for="collapse-section6" aria-hidden="true">V1.1.3 / 24-July-2023</label>
 <div>
 
 ## Main changes
 - Add APIs to set/get FSM/MLC fifo_en bit
+
+##
+
+</div>
+
+<input type="checkbox" id="collapse-section7" checked aria-hidden="true">
+<label for="collapse-section7" aria-hidden="true">V1.1.4 / 27-July-2023</label>
+<div>
+
+## Main changes
+- moved all enum outside of struct to be C++ compliant
 
 ##
 
