@@ -149,6 +149,8 @@ int32_t lis2dux12_init_set(stmdev_ctx_t *ctx, lis2dux12_init_t val)
 {
   lis2dux12_ctrl1_t ctrl1;
   lis2dux12_ctrl4_t ctrl4;
+  lis2dux12_status_t status;
+  uint8_t cnt = 0;
   int32_t ret = 0;
 
   ret += lis2dux12_read_reg(ctx, LIS2DUX12_CTRL1, (uint8_t*)&ctrl1, 1);
@@ -157,11 +159,40 @@ int32_t lis2dux12_init_set(stmdev_ctx_t *ctx, lis2dux12_init_t val)
     case LIS2DUX12_BOOT:
       ctrl4.boot = PROPERTY_ENABLE;
       ret += lis2dux12_write_reg(ctx, LIS2DUX12_CTRL4, (uint8_t*)&ctrl4, 1);
+      if (ret != 0) { break; }
+
+      do {
+        ret = lis2dux12_read_reg(ctx, LIS2DUX12_CTRL4, (uint8_t *)&ctrl4, 1);
+        if (ret != 0) { break; }
+
+        /* boot procedue ended correctly */
+        if (ctrl4.boot == 0U) { break; }
+
+        if (ctx->mdelay != NULL) {
+          ctx->mdelay(25); /* 25 ms of boot time */
+        }
+      } while (cnt++ < 5U);
+
+      if (cnt >= 5U) { ret = -1; } /* boot procedure failed */
       break;
     case LIS2DUX12_RESET:
-
       ctrl1.sw_reset = PROPERTY_ENABLE;
       ret += lis2dux12_write_reg(ctx, LIS2DUX12_CTRL1, (uint8_t*)&ctrl1, 1);
+      if (ret != 0) { break; }
+
+      do {
+        ret = lis2dux12_status_get(ctx, &status);
+        if (ret != 0) { break; }
+
+        /* sw-reset procedue ended correctly */
+        if (status.sw_reset == 0U) { break; }
+
+        if (ctx->mdelay != NULL) {
+          ctx->mdelay(1); /* should be 50 us */
+        }
+      } while (cnt++ < 5U);
+
+      if (cnt >= 5U) { ret = -1; } /* sw-reset procedure failed */
       break;
     case LIS2DUX12_SENSOR_ONLY_ON:
       /* no embedded funcs are used */
@@ -543,6 +574,10 @@ int32_t lis2dux12_exit_deep_power_down(stmdev_ctx_t *ctx)
 
   if_wake_up.soft_pd = PROPERTY_ENABLE;
   ret = lis2dux12_write_reg(ctx, LIS2DUX12_IF_WAKE_UP, (uint8_t *)&if_wake_up, 1);
+
+  if (ctx->mdelay != NULL) {
+    ctx->mdelay(25); /* See AN5909 - paragraphs 3.1.1.1 and 3.1.1.2 */
+  }
 
   return ret;
 }
