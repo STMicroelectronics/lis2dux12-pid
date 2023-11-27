@@ -702,13 +702,15 @@ typedef struct
 typedef struct
 {
 #if DRV_BYTE_ORDER == DRV_LITTLE_ENDIAN
-  uint8_t not_used0                    : 4;
+  uint8_t t_dis                        : 1;
+  uint8_t not_used0                    : 3;
   uint8_t st                           : 2;
   uint8_t not_used1                    : 2;
 #elif DRV_BYTE_ORDER == DRV_BIG_ENDIAN
   uint8_t not_used1                    : 2;
   uint8_t st                           : 2;
-  uint8_t not_used0                    : 4;
+  uint8_t not_used0                    : 3;
+  uint8_t t_dis                        : 1;
 #endif /* DRV_BYTE_ORDER */
 } lis2dux12_self_test_t;
 
@@ -2125,6 +2127,9 @@ typedef struct {
 } lis2dux12_md_t;
 int32_t lis2dux12_mode_set(stmdev_ctx_t *ctx, lis2dux12_md_t *val);
 int32_t lis2dux12_mode_get(stmdev_ctx_t *ctx, lis2dux12_md_t *val);
+
+int32_t lis2dux12_temp_disable_set(stmdev_ctx_t *ctx, uint8_t val);
+int32_t lis2dux12_temp_disable_get(stmdev_ctx_t *ctx, uint8_t *val);
 
 int32_t lis2dux12_trigger_sw(stmdev_ctx_t *ctx, lis2dux12_md_t *md);
 

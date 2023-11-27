@@ -536,6 +536,49 @@ int32_t lis2dux12_mode_get(stmdev_ctx_t *ctx, lis2dux12_md_t *val)
 }
 
 /**
+  * @brief  Disable/Enable temperature sensor acquisition[set]
+  *
+  * @param  ctx      read / write interface definitions
+  * @param  val      1: disable temp acquisition - 0: enable temp acquisition
+  * @retval          interface status (MANDATORY: return 0 -> no Error)
+  *
+  */
+int32_t lis2dux12_temp_disable_set(stmdev_ctx_t *ctx, uint8_t val)
+{
+  lis2dux12_self_test_t temp;
+  int32_t ret;
+
+  ret = lis2dux12_read_reg(ctx, LIS2DUX12_SELF_TEST, (uint8_t *)&temp, 1);
+
+  if (ret == 0)
+  {
+    temp.t_dis = val;
+    ret = lis2dux12_write_reg(ctx, LIS2DUX12_SELF_TEST, (uint8_t *)&temp, 1);
+  }
+
+  return ret;
+}
+
+/**
+  * @brief  Disable/Enable temperature sensor acquisition[get]
+  *
+  * @param  ctx      read / write interface definitions
+  * @param  val      1: disable temp acquisition - 0: enable temp acquisition
+  * @retval          interface status (MANDATORY: return 0 -> no Error)
+  *
+  */
+int32_t lis2dux12_temp_disable_get(stmdev_ctx_t *ctx, uint8_t *val)
+{
+  lis2dux12_self_test_t temp;
+  int32_t ret;
+
+  ret = lis2dux12_read_reg(ctx, LIS2DUX12_SELF_TEST, (uint8_t *)&temp, 1);
+  *val = temp.t_dis;
+
+  return ret;
+}
+
+/**
   * @brief  Enter deep power down[set]
   *
   * @param  ctx      read / write interface definitions
