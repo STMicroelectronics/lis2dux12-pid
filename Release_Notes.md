@@ -101,7 +101,7 @@ This directory contains the LIS2DUX12 component drivers.
 
 </div>
 
-<input type="checkbox" id="collapse-section7" checked aria-hidden="true">
+<input type="checkbox" id="collapse-section7" aria-hidden="true">
 <label for="collapse-section7" aria-hidden="true">V1.1.4 / 27-July-2023</label>
 <div>
 
@@ -111,6 +111,19 @@ This directory contains the LIS2DUX12 component drivers.
 ##
 
 </div>
+
+<input type="checkbox" id="collapse-section8" checked aria-hidden="true">
+<label for="collapse-section8" aria-hidden="true">V1.2.0 / 27-Nov-2023</label>
+<div>
+
+## Main changes
+- Align driver to DS v3.0
+- Add wait BOOT/RESET/Power-Down as specified in AN5909
+
+##
+
+</div>
+
 :::
 
 :::
