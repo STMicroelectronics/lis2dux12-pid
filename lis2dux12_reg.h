@@ -2034,10 +2034,10 @@ typedef union
  * them with a custom implementation.
  */
 
-int32_t lis2dux12_read_reg(stmdev_ctx_t *ctx, uint8_t reg,
+int32_t lis2dux12_read_reg(const stmdev_ctx_t *ctx, uint8_t reg,
                           uint8_t *data,
                           uint16_t len);
-int32_t lis2dux12_write_reg(stmdev_ctx_t *ctx, uint8_t reg,
+int32_t lis2dux12_write_reg(const stmdev_ctx_t *ctx, uint8_t reg,
                            uint8_t *data,
                            uint16_t len);
 
@@ -2047,7 +2047,7 @@ float_t lis2dux12_from_fs8g_to_mg(int16_t lsb);
 float_t lis2dux12_from_fs16g_to_mg(int16_t lsb);
 float_t lis2dux12_from_lsb_to_celsius(int16_t lsb);
 
-int32_t lis2dux12_device_id_get(stmdev_ctx_t *ctx, uint8_t *val);
+int32_t lis2dux12_device_id_get(const stmdev_ctx_t *ctx, uint8_t *val);
 
 typedef enum {
   LIS2DUX12_SENSOR_ONLY_ON     = 0x00, /* Initialize the driver for sensor usage */
@@ -2056,7 +2056,7 @@ typedef enum {
   LIS2DUX12_SENSOR_EMB_FUNC_ON = 0x03, /* Initialize the driver for sensor and/or
                                            embedded functions usage (it takes 10ms) */
 } lis2dux12_init_t;
-int32_t lis2dux12_init_set(stmdev_ctx_t *ctx, lis2dux12_init_t val);
+int32_t lis2dux12_init_set(const stmdev_ctx_t *ctx, lis2dux12_init_t val);
 
 typedef struct {
   uint8_t sw_reset                     : 1; /* Restoring configuration registers */
@@ -2064,22 +2064,22 @@ typedef struct {
   uint8_t drdy                         : 1; /* Accelerometer data ready */
   uint8_t power_down                   : 1; /* Monitors power-down. */
 } lis2dux12_status_t;
-int32_t lis2dux12_status_get(stmdev_ctx_t *ctx, lis2dux12_status_t *val);
+int32_t lis2dux12_status_get(const stmdev_ctx_t *ctx, lis2dux12_status_t *val);
 
 typedef struct {
   uint8_t is_step_det                  : 1; /* Step detected */
   uint8_t is_tilt                      : 1; /* Tilt detected */
   uint8_t is_sigmot                    : 1; /* Significant motion detected */
 } lis2dux12_embedded_status_t;
-int32_t lis2dux12_embedded_status_get(stmdev_ctx_t *ctx, lis2dux12_embedded_status_t *val);
+int32_t lis2dux12_embedded_status_get(const stmdev_ctx_t *ctx, lis2dux12_embedded_status_t *val);
 
 typedef enum
 {
   LIS2DUX12_DRDY_LATCHED = 0x0,
   LIS2DUX12_DRDY_PULSED  = 0x1,
 } lis2dux12_data_ready_mode_t;
-int32_t lis2dux12_data_ready_mode_set(stmdev_ctx_t *ctx, lis2dux12_data_ready_mode_t val);
-int32_t lis2dux12_data_ready_mode_get(stmdev_ctx_t *ctx, lis2dux12_data_ready_mode_t *val);
+int32_t lis2dux12_data_ready_mode_set(const stmdev_ctx_t *ctx, lis2dux12_data_ready_mode_t val);
+int32_t lis2dux12_data_ready_mode_get(const stmdev_ctx_t *ctx, lis2dux12_data_ready_mode_t *val);
 
 typedef enum {
   LIS2DUX12_OFF               = 0x00, /* in power down */
@@ -2125,13 +2125,13 @@ typedef struct {
   lis2dux12_fs_t fs;
   lis2dux12_bw_t bw;
 } lis2dux12_md_t;
-int32_t lis2dux12_mode_set(stmdev_ctx_t *ctx, lis2dux12_md_t *val);
-int32_t lis2dux12_mode_get(stmdev_ctx_t *ctx, lis2dux12_md_t *val);
+int32_t lis2dux12_mode_set(const stmdev_ctx_t *ctx, lis2dux12_md_t *val);
+int32_t lis2dux12_mode_get(const stmdev_ctx_t *ctx, lis2dux12_md_t *val);
 
-int32_t lis2dux12_temp_disable_set(stmdev_ctx_t *ctx, uint8_t val);
-int32_t lis2dux12_temp_disable_get(stmdev_ctx_t *ctx, uint8_t *val);
+int32_t lis2dux12_temp_disable_set(const stmdev_ctx_t *ctx, uint8_t val);
+int32_t lis2dux12_temp_disable_get(const stmdev_ctx_t *ctx, uint8_t *val);
 
-int32_t lis2dux12_trigger_sw(stmdev_ctx_t *ctx, lis2dux12_md_t *md);
+int32_t lis2dux12_trigger_sw(const stmdev_ctx_t *ctx, lis2dux12_md_t *md);
 
 typedef struct
 {
@@ -2160,13 +2160,13 @@ typedef struct
   uint8_t fifo_ovr                     : 1;
   uint8_t fifo_th                      : 1;
 } lis2dux12_all_sources_t;
-int32_t lis2dux12_all_sources_get(stmdev_ctx_t *ctx, lis2dux12_all_sources_t *val);
+int32_t lis2dux12_all_sources_get(const stmdev_ctx_t *ctx, lis2dux12_all_sources_t *val);
 
 typedef struct {
   float_t mg[3];
   int16_t raw[3];
 } lis2dux12_xl_data_t;
-int32_t lis2dux12_xl_data_get(stmdev_ctx_t *ctx, lis2dux12_md_t *md,
+int32_t lis2dux12_xl_data_get(const stmdev_ctx_t *ctx, lis2dux12_md_t *md,
                                lis2dux12_xl_data_t *data);
 
 typedef struct {
@@ -2175,7 +2175,7 @@ typedef struct {
     int16_t raw;
   }heat;
 } lis2dux12_outt_data_t;
-int32_t lis2dux12_outt_data_get(stmdev_ctx_t *ctx, lis2dux12_md_t *md,
+int32_t lis2dux12_outt_data_get(const stmdev_ctx_t *ctx, lis2dux12_md_t *md,
                                lis2dux12_outt_data_t *data);
 
 typedef enum
@@ -2184,12 +2184,12 @@ typedef enum
   LIS2DUX12_XL_ST_POSITIVE = 0x1,
   LIS2DUX12_XL_ST_NEGATIVE = 0x2,
 } lis2dux12_xl_self_test_t;
-int32_t lis2dux12_self_test_sign_set(stmdev_ctx_t *ctx, lis2dux12_xl_self_test_t val);
-int32_t lis2dux12_self_test_start(stmdev_ctx_t *ctx, uint8_t val);
-int32_t lis2dux12_self_test_stop(stmdev_ctx_t *ctx);
+int32_t lis2dux12_self_test_sign_set(const stmdev_ctx_t *ctx, lis2dux12_xl_self_test_t val);
+int32_t lis2dux12_self_test_start(const stmdev_ctx_t *ctx, uint8_t val);
+int32_t lis2dux12_self_test_stop(const stmdev_ctx_t *ctx);
 
-int32_t lis2dux12_enter_deep_power_down(stmdev_ctx_t *ctx, uint8_t val);
-int32_t lis2dux12_exit_deep_power_down(stmdev_ctx_t *ctx);
+int32_t lis2dux12_enter_deep_power_down(const stmdev_ctx_t *ctx, uint8_t val);
+int32_t lis2dux12_exit_deep_power_down(const stmdev_ctx_t *ctx);
 
 typedef enum {
   LIS2DUX12_I3C_BUS_AVAIL_TIME_20US = 0x0,
@@ -2203,19 +2203,19 @@ typedef struct {
   uint8_t asf_on                       : 1;
   uint8_t drstdaa_en                   : 1;
 } lis2dux12_i3c_cfg_t;
-int32_t lis2dux12_i3c_configure_set(stmdev_ctx_t *ctx, lis2dux12_i3c_cfg_t *val);
-int32_t lis2dux12_i3c_configure_get(stmdev_ctx_t *ctx, lis2dux12_i3c_cfg_t *val);
+int32_t lis2dux12_i3c_configure_set(const stmdev_ctx_t *ctx, lis2dux12_i3c_cfg_t *val);
+int32_t lis2dux12_i3c_configure_get(const stmdev_ctx_t *ctx, lis2dux12_i3c_cfg_t *val);
 
 typedef enum
 {
   LIS2DUX12_MAIN_MEM_BANK       = 0x0,
   LIS2DUX12_EMBED_FUNC_MEM_BANK = 0x1,
 } lis2dux12_mem_bank_t;
-int32_t lis2dux12_mem_bank_set(stmdev_ctx_t *ctx, lis2dux12_mem_bank_t val);
-int32_t lis2dux12_mem_bank_get(stmdev_ctx_t *ctx, lis2dux12_mem_bank_t *val);
+int32_t lis2dux12_mem_bank_set(const stmdev_ctx_t *ctx, lis2dux12_mem_bank_t val);
+int32_t lis2dux12_mem_bank_get(const stmdev_ctx_t *ctx, lis2dux12_mem_bank_t *val);
 
-int32_t lis2dux12_ln_pg_write(stmdev_ctx_t *ctx, uint16_t address, uint8_t *buf, uint8_t len);
-int32_t lis2dux12_ln_pg_read(stmdev_ctx_t *ctx, uint16_t address, uint8_t *buf, uint8_t len);
+int32_t lis2dux12_ln_pg_write(const stmdev_ctx_t *ctx, uint16_t address, uint8_t *buf, uint8_t len);
+int32_t lis2dux12_ln_pg_read(const stmdev_ctx_t *ctx, uint16_t address, uint8_t *buf, uint8_t len);
 
 typedef struct {
   uint8_t sdo_pull_up                  : 1; /* 1 = pull up enable */
@@ -2225,24 +2225,24 @@ typedef struct {
   uint8_t int1_pull_down               : 1; /* 1 = pull-down always disabled (0=auto) */
   uint8_t int2_pull_down               : 1; /* 1 = pull-down always disabled (0=auto) */
 } lis2dux12_pin_conf_t;
-int32_t lis2dux12_pin_conf_set(stmdev_ctx_t *ctx, lis2dux12_pin_conf_t *val);
-int32_t lis2dux12_pin_conf_get(stmdev_ctx_t *ctx, lis2dux12_pin_conf_t *val);
+int32_t lis2dux12_pin_conf_set(const stmdev_ctx_t *ctx, lis2dux12_pin_conf_t *val);
+int32_t lis2dux12_pin_conf_get(const stmdev_ctx_t *ctx, lis2dux12_pin_conf_t *val);
 
 typedef enum
 {
   LIS2DUX12_ACTIVE_HIGH = 0x0,
   LIS2DUX12_ACTIVE_LOW  = 0x1,
 } lis2dux12_int_pin_polarity_t;
-int32_t lis2dux12_int_pin_polarity_set(stmdev_ctx_t *ctx, lis2dux12_int_pin_polarity_t val);
-int32_t lis2dux12_int_pin_polarity_get(stmdev_ctx_t *ctx, lis2dux12_int_pin_polarity_t *val);
+int32_t lis2dux12_int_pin_polarity_set(const stmdev_ctx_t *ctx, lis2dux12_int_pin_polarity_t val);
+int32_t lis2dux12_int_pin_polarity_get(const stmdev_ctx_t *ctx, lis2dux12_int_pin_polarity_t *val);
 
 typedef enum
 {
   LIS2DUX12_SPI_4_WIRE  = 0x0, /* SPI 4 wires */
   LIS2DUX12_SPI_3_WIRE  = 0x1, /* SPI 3 wires */
 } lis2dux12_spi_mode;
-int32_t lis2dux12_spi_mode_set(stmdev_ctx_t *ctx, lis2dux12_spi_mode val);
-int32_t lis2dux12_spi_mode_get(stmdev_ctx_t *ctx, lis2dux12_spi_mode *val);
+int32_t lis2dux12_spi_mode_set(const stmdev_ctx_t *ctx, lis2dux12_spi_mode val);
+int32_t lis2dux12_spi_mode_get(const stmdev_ctx_t *ctx, lis2dux12_spi_mode *val);
 
 typedef struct {
   uint8_t int_on_res                   : 1; /* Interrupt on RES pin */
@@ -2259,13 +2259,13 @@ typedef struct {
   uint8_t emb_function                 : 1; /* Embedded Function */
   uint8_t timestamp                    : 1; /* Timestamp */
 } lis2dux12_pin_int_route_t;
-int32_t lis2dux12_pin_int1_route_set(stmdev_ctx_t *ctx,
+int32_t lis2dux12_pin_int1_route_set(const stmdev_ctx_t *ctx,
                                       lis2dux12_pin_int_route_t *val);
-int32_t lis2dux12_pin_int1_route_get(stmdev_ctx_t *ctx,
+int32_t lis2dux12_pin_int1_route_get(const stmdev_ctx_t *ctx,
                                       lis2dux12_pin_int_route_t *val);
-int32_t lis2dux12_pin_int2_route_set(stmdev_ctx_t *ctx,
+int32_t lis2dux12_pin_int2_route_set(const stmdev_ctx_t *ctx,
                                       lis2dux12_pin_int_route_t *val);
-int32_t lis2dux12_pin_int2_route_get(stmdev_ctx_t *ctx,
+int32_t lis2dux12_pin_int2_route_get(const stmdev_ctx_t *ctx,
                                       lis2dux12_pin_int_route_t *val);
 
 typedef struct {
@@ -2274,13 +2274,13 @@ typedef struct {
   uint8_t sig_mot                      : 1; /* route significant motion event on INT pad */
   uint8_t fsm_lc                       : 1; /* route FSM long counter event on INT pad */
 } lis2dux12_emb_pin_int_route_t;
-int32_t lis2dux12_emb_pin_int1_route_set(stmdev_ctx_t *ctx,
+int32_t lis2dux12_emb_pin_int1_route_set(const stmdev_ctx_t *ctx,
                                           lis2dux12_emb_pin_int_route_t *val);
-int32_t lis2dux12_emb_pin_int1_route_get(stmdev_ctx_t *ctx,
+int32_t lis2dux12_emb_pin_int1_route_get(const stmdev_ctx_t *ctx,
                                           lis2dux12_emb_pin_int_route_t *val);
-int32_t lis2dux12_emb_pin_int2_route_set(stmdev_ctx_t *ctx,
+int32_t lis2dux12_emb_pin_int2_route_set(const stmdev_ctx_t *ctx,
                                           lis2dux12_emb_pin_int_route_t *val);
-int32_t lis2dux12_emb_pin_int2_route_get(stmdev_ctx_t *ctx,
+int32_t lis2dux12_emb_pin_int2_route_get(const stmdev_ctx_t *ctx,
                                           lis2dux12_emb_pin_int_route_t *val);
 
 typedef enum
@@ -2295,16 +2295,16 @@ typedef struct {
   uint8_t sleep_status_on_int          : 1;  /* route sleep_status on interrupt */
   uint8_t dis_rst_lir_all_int          : 1;  /* disable LIR reset when reading ALL_INT_SRC */
 } lis2dux12_int_config_t;
-int32_t lis2dux12_int_config_set(stmdev_ctx_t *ctx, lis2dux12_int_config_t *val);
-int32_t lis2dux12_int_config_get(stmdev_ctx_t *ctx, lis2dux12_int_config_t *val);
+int32_t lis2dux12_int_config_set(const stmdev_ctx_t *ctx, lis2dux12_int_config_t *val);
+int32_t lis2dux12_int_config_get(const stmdev_ctx_t *ctx, lis2dux12_int_config_t *val);
 
 typedef enum
 {
   LIS2DUX12_EMBEDDED_INT_LEVEL         = 0x0,
   LIS2DUX12_EMBEDDED_INT_LATCHED       = 0x1,
 } lis2dux12_embedded_int_config_t;
-int32_t lis2dux12_embedded_int_config_set(stmdev_ctx_t *ctx, lis2dux12_embedded_int_config_t val);
-int32_t lis2dux12_embedded_int_config_get(stmdev_ctx_t *ctx, lis2dux12_embedded_int_config_t *val);
+int32_t lis2dux12_embedded_int_config_set(const stmdev_ctx_t *ctx, lis2dux12_embedded_int_config_t val);
+int32_t lis2dux12_embedded_int_config_get(const stmdev_ctx_t *ctx, lis2dux12_embedded_int_config_t *val);
 
 typedef enum
 {
@@ -2353,11 +2353,11 @@ typedef struct {
     lis2dux12_bdr_xl_t bdr_xl; /* accelerometer batch data rate*/
   } batch;
 } lis2dux12_fifo_mode_t;
-int32_t lis2dux12_fifo_mode_set(stmdev_ctx_t *ctx, lis2dux12_fifo_mode_t val);
-int32_t lis2dux12_fifo_mode_get(stmdev_ctx_t *ctx, lis2dux12_fifo_mode_t *val);
+int32_t lis2dux12_fifo_mode_set(const stmdev_ctx_t *ctx, lis2dux12_fifo_mode_t val);
+int32_t lis2dux12_fifo_mode_get(const stmdev_ctx_t *ctx, lis2dux12_fifo_mode_t *val);
 
-int32_t lis2dux12_fifo_data_level_get(stmdev_ctx_t *ctx, uint16_t *val);
-int32_t lis2dux12_fifo_wtm_flag_get(stmdev_ctx_t *ctx, uint8_t *val);
+int32_t lis2dux12_fifo_data_level_get(const stmdev_ctx_t *ctx, uint16_t *val);
+int32_t lis2dux12_fifo_wtm_flag_get(const stmdev_ctx_t *ctx, uint8_t *val);
 
 typedef enum
 {
@@ -2371,10 +2371,10 @@ typedef enum
   LIS2DUX12_MLC_FEATURE                = 0x1C,
   LIS2DUX12_FSM_RESULT_TAG             = 0x1D,
 } lis2dux12_fifo_sensor_tag_t;
-int32_t lis2dux12_fifo_sensor_tag_get(stmdev_ctx_t *ctx,
+int32_t lis2dux12_fifo_sensor_tag_get(const stmdev_ctx_t *ctx,
                                        lis2dux12_fifo_sensor_tag_t *val);
 
-int32_t lis2dux12_fifo_out_raw_get(stmdev_ctx_t *ctx, uint8_t *buff);
+int32_t lis2dux12_fifo_out_raw_get(const stmdev_ctx_t *ctx, uint8_t *buff);
 
 typedef struct {
   uint8_t tag;
@@ -2401,7 +2401,7 @@ typedef struct {
     uint32_t timestamp;
   } cfg_chg;
 } lis2dux12_fifo_data_t;
-int32_t lis2dux12_fifo_data_get(stmdev_ctx_t *ctx, lis2dux12_md_t *md,
+int32_t lis2dux12_fifo_data_get(const stmdev_ctx_t *ctx, lis2dux12_md_t *md,
                                  lis2dux12_fifo_mode_t *fmd,
                                  lis2dux12_fifo_data_t *data);
 
@@ -2412,27 +2412,27 @@ typedef struct
   uint8_t step_counter_enable          : 1;
   uint8_t step_counter_in_fifo         : 1;
 } lis2dux12_stpcnt_mode_t;
-int32_t lis2dux12_stpcnt_mode_set(stmdev_ctx_t *ctx, lis2dux12_stpcnt_mode_t val);
-int32_t lis2dux12_stpcnt_mode_get(stmdev_ctx_t *ctx, lis2dux12_stpcnt_mode_t *val);
+int32_t lis2dux12_stpcnt_mode_set(const stmdev_ctx_t *ctx, lis2dux12_stpcnt_mode_t val);
+int32_t lis2dux12_stpcnt_mode_get(const stmdev_ctx_t *ctx, lis2dux12_stpcnt_mode_t *val);
 
-int32_t lis2dux12_stpcnt_steps_get(stmdev_ctx_t *ctx, uint16_t *val);
+int32_t lis2dux12_stpcnt_steps_get(const stmdev_ctx_t *ctx, uint16_t *val);
 
-int32_t lis2dux12_stpcnt_rst_step_set(stmdev_ctx_t *ctx);
+int32_t lis2dux12_stpcnt_rst_step_set(const stmdev_ctx_t *ctx);
 
-int32_t lis2dux12_stpcnt_debounce_set(stmdev_ctx_t *ctx, uint8_t val);
-int32_t lis2dux12_stpcnt_debounce_get(stmdev_ctx_t *ctx, uint8_t *val);
+int32_t lis2dux12_stpcnt_debounce_set(const stmdev_ctx_t *ctx, uint8_t val);
+int32_t lis2dux12_stpcnt_debounce_get(const stmdev_ctx_t *ctx, uint8_t *val);
 
-int32_t lis2dux12_stpcnt_period_set(stmdev_ctx_t *ctx, uint16_t val);
-int32_t lis2dux12_stpcnt_period_get(stmdev_ctx_t *ctx, uint16_t *val);
+int32_t lis2dux12_stpcnt_period_set(const stmdev_ctx_t *ctx, uint16_t val);
+int32_t lis2dux12_stpcnt_period_get(const stmdev_ctx_t *ctx, uint16_t *val);
 
-int32_t lis2dux12_tilt_mode_set(stmdev_ctx_t *ctx, uint8_t val);
-int32_t lis2dux12_tilt_mode_get(stmdev_ctx_t *ctx, uint8_t *val);
-int32_t lis2dux12_sigmot_mode_set(stmdev_ctx_t *ctx, uint8_t val);
-int32_t lis2dux12_sigmot_mode_get(stmdev_ctx_t *ctx, uint8_t *val);
+int32_t lis2dux12_tilt_mode_set(const stmdev_ctx_t *ctx, uint8_t val);
+int32_t lis2dux12_tilt_mode_get(const stmdev_ctx_t *ctx, uint8_t *val);
+int32_t lis2dux12_sigmot_mode_set(const stmdev_ctx_t *ctx, uint8_t val);
+int32_t lis2dux12_sigmot_mode_get(const stmdev_ctx_t *ctx, uint8_t *val);
 
 
-int32_t lis2dux12_ff_duration_set(stmdev_ctx_t *ctx, uint8_t val);
-int32_t lis2dux12_ff_duration_get(stmdev_ctx_t *ctx, uint8_t *val);
+int32_t lis2dux12_ff_duration_set(const stmdev_ctx_t *ctx, uint8_t val);
+int32_t lis2dux12_ff_duration_get(const stmdev_ctx_t *ctx, uint8_t *val);
 
 typedef enum
 {
@@ -2445,8 +2445,8 @@ typedef enum
   LIS2DUX12_469_mg = 0x6,
   LIS2DUX12_500_mg = 0x7,
 } lis2dux12_ff_thresholds_t;
-int32_t lis2dux12_ff_thresholds_set(stmdev_ctx_t *ctx, lis2dux12_ff_thresholds_t val);
-int32_t lis2dux12_ff_thresholds_get(stmdev_ctx_t *ctx, lis2dux12_ff_thresholds_t *val);
+int32_t lis2dux12_ff_thresholds_set(const stmdev_ctx_t *ctx, lis2dux12_ff_thresholds_t val);
+int32_t lis2dux12_ff_thresholds_get(const stmdev_ctx_t *ctx, lis2dux12_ff_thresholds_t *val);
 
 typedef enum
 {
@@ -2467,8 +2467,8 @@ typedef struct {
   lis2dux12_mode_t mode;
 } lis2dux12_sixd_config_t;
 
-int32_t lis2dux12_sixd_config_set(stmdev_ctx_t *ctx, lis2dux12_sixd_config_t val);
-int32_t lis2dux12_sixd_config_get(stmdev_ctx_t *ctx, lis2dux12_sixd_config_t *val);
+int32_t lis2dux12_sixd_config_set(const stmdev_ctx_t *ctx, lis2dux12_sixd_config_t val);
+int32_t lis2dux12_sixd_config_get(const stmdev_ctx_t *ctx, lis2dux12_sixd_config_t *val);
 
 typedef enum
 {
@@ -2504,8 +2504,8 @@ typedef struct {
   lis2dux12_inact_odr_t inact_odr;
 } lis2dux12_wakeup_config_t;
 
-int32_t lis2dux12_wakeup_config_set(stmdev_ctx_t *ctx, lis2dux12_wakeup_config_t val);
-int32_t lis2dux12_wakeup_config_get(stmdev_ctx_t *ctx, lis2dux12_wakeup_config_t *val);
+int32_t lis2dux12_wakeup_config_set(const stmdev_ctx_t *ctx, lis2dux12_wakeup_config_t val);
+int32_t lis2dux12_wakeup_config_get(const stmdev_ctx_t *ctx, lis2dux12_wakeup_config_t *val);
 
 typedef enum
 {
@@ -2533,35 +2533,35 @@ typedef struct {
   uint8_t triple_tap_on                : 1; /* enable triple tap */
 } lis2dux12_tap_config_t;
 
-int32_t lis2dux12_tap_config_set(stmdev_ctx_t *ctx, lis2dux12_tap_config_t val);
-int32_t lis2dux12_tap_config_get(stmdev_ctx_t *ctx, lis2dux12_tap_config_t *val);
+int32_t lis2dux12_tap_config_set(const stmdev_ctx_t *ctx, lis2dux12_tap_config_t val);
+int32_t lis2dux12_tap_config_get(const stmdev_ctx_t *ctx, lis2dux12_tap_config_t *val);
 
-int32_t lis2dux12_timestamp_set(stmdev_ctx_t *ctx, uint8_t val);
-int32_t lis2dux12_timestamp_get(stmdev_ctx_t *ctx, uint8_t *val);
+int32_t lis2dux12_timestamp_set(const stmdev_ctx_t *ctx, uint8_t val);
+int32_t lis2dux12_timestamp_get(const stmdev_ctx_t *ctx, uint8_t *val);
 
-int32_t lis2dux12_timestamp_raw_get(stmdev_ctx_t *ctx, uint32_t *val);
+int32_t lis2dux12_timestamp_raw_get(const stmdev_ctx_t *ctx, uint32_t *val);
 
-int32_t lis2dux12_long_cnt_flag_data_ready_get(stmdev_ctx_t *ctx,
+int32_t lis2dux12_long_cnt_flag_data_ready_get(const stmdev_ctx_t *ctx,
                                                 uint8_t *val);
 
-int32_t lis2dux12_emb_fsm_en_set(stmdev_ctx_t *ctx, uint8_t val);
-int32_t lis2dux12_emb_fsm_en_get(stmdev_ctx_t *ctx, uint8_t *val);
+int32_t lis2dux12_emb_fsm_en_set(const stmdev_ctx_t *ctx, uint8_t val);
+int32_t lis2dux12_emb_fsm_en_get(const stmdev_ctx_t *ctx, uint8_t *val);
 
 typedef struct
 {
   lis2dux12_fsm_enable_t          fsm_enable;
 } lis2dux12_emb_fsm_enable_t;
-int32_t lis2dux12_fsm_enable_set(stmdev_ctx_t *ctx,
+int32_t lis2dux12_fsm_enable_set(const stmdev_ctx_t *ctx,
                                   lis2dux12_emb_fsm_enable_t *val);
-int32_t lis2dux12_fsm_enable_get(stmdev_ctx_t *ctx,
+int32_t lis2dux12_fsm_enable_get(const stmdev_ctx_t *ctx,
                                   lis2dux12_emb_fsm_enable_t *val);
 
-int32_t lis2dux12_long_cnt_set(stmdev_ctx_t *ctx, uint16_t val);
-int32_t lis2dux12_long_cnt_get(stmdev_ctx_t *ctx, uint16_t *val);
+int32_t lis2dux12_long_cnt_set(const stmdev_ctx_t *ctx, uint16_t val);
+int32_t lis2dux12_long_cnt_get(const stmdev_ctx_t *ctx, uint16_t *val);
 
-int32_t lis2dux12_fsm_status_get(stmdev_ctx_t *ctx,
+int32_t lis2dux12_fsm_status_get(const stmdev_ctx_t *ctx,
                                   lis2dux12_fsm_status_mainpage_t *val);
-int32_t lis2dux12_fsm_out_get(stmdev_ctx_t *ctx, uint8_t *val);
+int32_t lis2dux12_fsm_out_get(const stmdev_ctx_t *ctx, uint8_t *val);
 
 typedef enum
 {
@@ -2573,30 +2573,30 @@ typedef enum
   LIS2DUX12_ODR_FSM_400Hz = 5,
   LIS2DUX12_ODR_FSM_800Hz = 6,
 } lis2dux12_fsm_val_odr_t;
-int32_t lis2dux12_fsm_data_rate_set(stmdev_ctx_t *ctx,
+int32_t lis2dux12_fsm_data_rate_set(const stmdev_ctx_t *ctx,
                                      lis2dux12_fsm_val_odr_t val);
-int32_t lis2dux12_fsm_data_rate_get(stmdev_ctx_t *ctx,
+int32_t lis2dux12_fsm_data_rate_get(const stmdev_ctx_t *ctx,
                                      lis2dux12_fsm_val_odr_t *val);
 
-int32_t lis2dux12_fsm_init_set(stmdev_ctx_t *ctx, uint8_t val);
-int32_t lis2dux12_fsm_init_get(stmdev_ctx_t *ctx, uint8_t *val);
+int32_t lis2dux12_fsm_init_set(const stmdev_ctx_t *ctx, uint8_t val);
+int32_t lis2dux12_fsm_init_get(const stmdev_ctx_t *ctx, uint8_t *val);
 
-int32_t lis2dux12_fsm_fifo_en_set(stmdev_ctx_t *ctx, uint8_t val);
-int32_t lis2dux12_fsm_fifo_en_get(stmdev_ctx_t *ctx, uint8_t *val);
+int32_t lis2dux12_fsm_fifo_en_set(const stmdev_ctx_t *ctx, uint8_t val);
+int32_t lis2dux12_fsm_fifo_en_get(const stmdev_ctx_t *ctx, uint8_t *val);
 
-int32_t lis2dux12_long_cnt_int_value_set(stmdev_ctx_t *ctx,
+int32_t lis2dux12_long_cnt_int_value_set(const stmdev_ctx_t *ctx,
                                           uint16_t val);
-int32_t lis2dux12_long_cnt_int_value_get(stmdev_ctx_t *ctx,
+int32_t lis2dux12_long_cnt_int_value_get(const stmdev_ctx_t *ctx,
                                           uint16_t *val);
 
-int32_t lis2dux12_fsm_number_of_programs_set(stmdev_ctx_t *ctx,
+int32_t lis2dux12_fsm_number_of_programs_set(const stmdev_ctx_t *ctx,
                                               uint8_t *buff);
-int32_t lis2dux12_fsm_number_of_programs_get(stmdev_ctx_t *ctx,
+int32_t lis2dux12_fsm_number_of_programs_get(const stmdev_ctx_t *ctx,
                                               uint8_t *buff);
 
-int32_t lis2dux12_fsm_start_address_set(stmdev_ctx_t *ctx,
+int32_t lis2dux12_fsm_start_address_set(const stmdev_ctx_t *ctx,
                                          uint16_t val);
-int32_t lis2dux12_fsm_start_address_get(stmdev_ctx_t *ctx,
+int32_t lis2dux12_fsm_start_address_get(const stmdev_ctx_t *ctx,
                                          uint16_t *val);
 
 typedef enum
@@ -2605,13 +2605,13 @@ typedef enum
   LIS2DUX12_MLC_ON                     = 1,
   LIS2DUX12_MLC_ON_BEFORE_FSM          = 2,
 } lis2dux12_mlc_mode_t;
-int32_t lis2dux12_mlc_set(stmdev_ctx_t *ctx, lis2dux12_mlc_mode_t val);
-int32_t lis2dux12_mlc_get(stmdev_ctx_t *ctx, lis2dux12_mlc_mode_t *val);
+int32_t lis2dux12_mlc_set(const stmdev_ctx_t *ctx, lis2dux12_mlc_mode_t val);
+int32_t lis2dux12_mlc_get(const stmdev_ctx_t *ctx, lis2dux12_mlc_mode_t *val);
 
-int32_t lis2dux12_mlc_status_get(stmdev_ctx_t *ctx,
+int32_t lis2dux12_mlc_status_get(const stmdev_ctx_t *ctx,
                                   lis2dux12_mlc_status_mainpage_t *val);
 
-int32_t lis2dux12_mlc_out_get(stmdev_ctx_t *ctx, uint8_t *buff);
+int32_t lis2dux12_mlc_out_get(const stmdev_ctx_t *ctx, uint8_t *buff);
 
 typedef enum
 {
@@ -2621,13 +2621,13 @@ typedef enum
   LIS2DUX12_ODR_PRGS_100Hz = 3,
   LIS2DUX12_ODR_PRGS_200Hz = 4,
 } lis2dux12_mlc_odr_val_t;
-int32_t lis2dux12_mlc_data_rate_set(stmdev_ctx_t *ctx,
+int32_t lis2dux12_mlc_data_rate_set(const stmdev_ctx_t *ctx,
                                      lis2dux12_mlc_odr_val_t val);
-int32_t lis2dux12_mlc_data_rate_get(stmdev_ctx_t *ctx,
+int32_t lis2dux12_mlc_data_rate_get(const stmdev_ctx_t *ctx,
                                      lis2dux12_mlc_odr_val_t *val);
 
-int32_t lis2dux12_mlc_fifo_en_set(stmdev_ctx_t *ctx, uint8_t val);
-int32_t lis2dux12_mlc_fifo_en_get(stmdev_ctx_t *ctx, uint8_t *val);
+int32_t lis2dux12_mlc_fifo_en_set(const stmdev_ctx_t *ctx, uint8_t val);
+int32_t lis2dux12_mlc_fifo_en_get(const stmdev_ctx_t *ctx, uint8_t *val);
 
 #ifdef __cplusplus
 }
