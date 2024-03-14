@@ -46,12 +46,15 @@
   * @retval       interface status (MANDATORY: return 0 -> no Error)
   *
   */
-int32_t __weak lis2dux12_read_reg(const stmdev_ctx_t* ctx, uint8_t reg, uint8_t* data,
+int32_t __weak lis2dux12_read_reg(const stmdev_ctx_t *ctx, uint8_t reg, uint8_t *data,
                                   uint16_t len)
 {
   int32_t ret;
 
-  if (ctx == NULL) return -1;
+  if (ctx == NULL)
+  {
+    return -1;
+  }
 
   ret = ctx->read_reg(ctx->handle, reg, data, len);
 
@@ -68,12 +71,15 @@ int32_t __weak lis2dux12_read_reg(const stmdev_ctx_t* ctx, uint8_t reg, uint8_t*
   * @retval       interface status (MANDATORY: return 0 -> no Error)
   *
   */
-int32_t __weak lis2dux12_write_reg(const stmdev_ctx_t* ctx, uint8_t reg, uint8_t* data,
+int32_t __weak lis2dux12_write_reg(const stmdev_ctx_t *ctx, uint8_t reg, uint8_t *data,
                                    uint16_t len)
 {
   int32_t ret;
 
-  if (ctx == NULL) return -1;
+  if (ctx == NULL)
+  {
+    return -1;
+  }
 
   ret = ctx->write_reg(ctx->handle, reg, data, len);
 
@@ -161,66 +167,95 @@ int32_t lis2dux12_init_set(const stmdev_ctx_t *ctx, lis2dux12_init_t val)
   uint8_t cnt = 0;
   int32_t ret = 0;
 
-  ret += lis2dux12_read_reg(ctx, LIS2DUX12_CTRL1, (uint8_t*)&ctrl1, 1);
-  ret += lis2dux12_read_reg(ctx, LIS2DUX12_CTRL4, (uint8_t*)&ctrl4, 1);
-  switch (val) {
+  ret += lis2dux12_read_reg(ctx, LIS2DUX12_CTRL1, (uint8_t *)&ctrl1, 1);
+  ret += lis2dux12_read_reg(ctx, LIS2DUX12_CTRL4, (uint8_t *)&ctrl4, 1);
+  switch (val)
+  {
     case LIS2DUX12_BOOT:
       ctrl4.boot = PROPERTY_ENABLE;
-      ret += lis2dux12_write_reg(ctx, LIS2DUX12_CTRL4, (uint8_t*)&ctrl4, 1);
-      if (ret != 0) { break; }
+      ret += lis2dux12_write_reg(ctx, LIS2DUX12_CTRL4, (uint8_t *)&ctrl4, 1);
+      if (ret != 0)
+      {
+        break;
+      }
 
-      do {
+      do
+      {
         ret = lis2dux12_read_reg(ctx, LIS2DUX12_CTRL4, (uint8_t *)&ctrl4, 1);
-        if (ret != 0) { break; }
+        if (ret != 0)
+        {
+          break;
+        }
 
         /* boot procedue ended correctly */
-        if (ctrl4.boot == 0U) { break; }
+        if (ctrl4.boot == 0U)
+        {
+          break;
+        }
 
-        if (ctx->mdelay != NULL) {
+        if (ctx->mdelay != NULL)
+        {
           ctx->mdelay(25); /* 25 ms of boot time */
         }
       } while (cnt++ < 5U);
 
-      if (cnt >= 5U) { ret = -1; } /* boot procedure failed */
+      if (cnt >= 5U)
+      {
+        ret = -1;  /* boot procedure failed */
+      }
       break;
     case LIS2DUX12_RESET:
       ctrl1.sw_reset = PROPERTY_ENABLE;
-      ret += lis2dux12_write_reg(ctx, LIS2DUX12_CTRL1, (uint8_t*)&ctrl1, 1);
-      if (ret != 0) { break; }
+      ret += lis2dux12_write_reg(ctx, LIS2DUX12_CTRL1, (uint8_t *)&ctrl1, 1);
+      if (ret != 0)
+      {
+        break;
+      }
 
-      do {
+      do
+      {
         ret = lis2dux12_status_get(ctx, &status);
-        if (ret != 0) { break; }
+        if (ret != 0)
+        {
+          break;
+        }
 
         /* sw-reset procedue ended correctly */
-        if (status.sw_reset == 0U) { break; }
+        if (status.sw_reset == 0U)
+        {
+          break;
+        }
 
-        if (ctx->mdelay != NULL) {
+        if (ctx->mdelay != NULL)
+        {
           ctx->mdelay(1); /* should be 50 us */
         }
       } while (cnt++ < 5U);
 
-      if (cnt >= 5U) { ret = -1; } /* sw-reset procedure failed */
+      if (cnt >= 5U)
+      {
+        ret = -1;  /* sw-reset procedure failed */
+      }
       break;
     case LIS2DUX12_SENSOR_ONLY_ON:
       /* no embedded funcs are used */
       ctrl4.emb_func_en = PROPERTY_DISABLE;
       ctrl4.bdu = PROPERTY_ENABLE;
       ctrl1.if_add_inc = PROPERTY_ENABLE;
-      ret += lis2dux12_write_reg(ctx, LIS2DUX12_CTRL4, (uint8_t*)&ctrl4, 1);
-      ret += lis2dux12_write_reg(ctx, LIS2DUX12_CTRL1, (uint8_t*)&ctrl1, 1);
+      ret += lis2dux12_write_reg(ctx, LIS2DUX12_CTRL4, (uint8_t *)&ctrl4, 1);
+      ret += lis2dux12_write_reg(ctx, LIS2DUX12_CTRL1, (uint8_t *)&ctrl1, 1);
       break;
     case LIS2DUX12_SENSOR_EMB_FUNC_ON:
       /* complete configuration is used */
       ctrl4.emb_func_en = PROPERTY_ENABLE;
       ctrl4.bdu = PROPERTY_ENABLE;
       ctrl1.if_add_inc = PROPERTY_ENABLE;
-      ret += lis2dux12_write_reg(ctx, LIS2DUX12_CTRL4, (uint8_t*)&ctrl4, 1);
-      ret += lis2dux12_write_reg(ctx, LIS2DUX12_CTRL1, (uint8_t*)&ctrl1, 1);
+      ret += lis2dux12_write_reg(ctx, LIS2DUX12_CTRL4, (uint8_t *)&ctrl4, 1);
+      ret += lis2dux12_write_reg(ctx, LIS2DUX12_CTRL1, (uint8_t *)&ctrl1, 1);
       break;
     default:
       ctrl1.sw_reset = PROPERTY_ENABLE;
-      ret += lis2dux12_write_reg(ctx, LIS2DUX12_CTRL1, (uint8_t*)&ctrl1, 1);
+      ret += lis2dux12_write_reg(ctx, LIS2DUX12_CTRL1, (uint8_t *)&ctrl1, 1);
       break;
   }
   return ret;
@@ -242,12 +277,14 @@ int32_t lis2dux12_status_get(const stmdev_ctx_t *ctx, lis2dux12_status_t *val)
   int32_t ret;
 
   ret = lis2dux12_read_reg(ctx, LIS2DUX12_STATUS,
-                         (uint8_t*)&status_register, 1);
-  if (ret == 0) {
-    ret = lis2dux12_read_reg(ctx, LIS2DUX12_CTRL1, (uint8_t*)&ctrl1, 1);
+                           (uint8_t *)&status_register, 1);
+  if (ret == 0)
+  {
+    ret = lis2dux12_read_reg(ctx, LIS2DUX12_CTRL1, (uint8_t *)&ctrl1, 1);
   }
-  if (ret == 0) {
-    ret = lis2dux12_read_reg(ctx, LIS2DUX12_CTRL4, (uint8_t*)&ctrl4, 1);
+  if (ret == 0)
+  {
+    ret = lis2dux12_read_reg(ctx, LIS2DUX12_CTRL4, (uint8_t *)&ctrl4, 1);
   }
 
   val->sw_reset = ctrl1.sw_reset;
@@ -271,7 +308,7 @@ int32_t lis2dux12_embedded_status_get(const stmdev_ctx_t *ctx, lis2dux12_embedde
   int32_t ret;
 
   ret = lis2dux12_mem_bank_set(ctx, LIS2DUX12_EMBED_FUNC_MEM_BANK);
-  ret += lis2dux12_read_reg(ctx, LIS2DUX12_EMB_FUNC_STATUS, (uint8_t*)&status, 1);
+  ret += lis2dux12_read_reg(ctx, LIS2DUX12_EMB_FUNC_STATUS, (uint8_t *)&status, 1);
   ret += lis2dux12_mem_bank_set(ctx, LIS2DUX12_MAIN_MEM_BANK);
 
   val->is_step_det = status.is_step_det;
@@ -351,13 +388,14 @@ int32_t lis2dux12_mode_set(const stmdev_ctx_t *ctx, lis2dux12_md_t *val)
   lis2dux12_ctrl5_t ctrl5;
   int32_t ret;
 
-  ret = lis2dux12_read_reg(ctx, LIS2DUX12_CTRL5, (uint8_t*)&ctrl5, 1);
+  ret = lis2dux12_read_reg(ctx, LIS2DUX12_CTRL5, (uint8_t *)&ctrl5, 1);
 
   ctrl5.odr = (uint8_t)val->odr & 0xFU;
   ctrl5.fs = (uint8_t)val->fs;
 
   /* set the bandwidth */
-  switch (val->odr) {
+  switch (val->odr)
+  {
     /* no anti-aliasing filter present */
     case LIS2DUX12_OFF:
     case LIS2DUX12_1Hz6_ULP:
@@ -368,7 +406,8 @@ int32_t lis2dux12_mode_set(const stmdev_ctx_t *ctx, lis2dux12_md_t *val)
 
     /* low-power mode with ODR < 50 Hz */
     case LIS2DUX12_6Hz_LP:
-      switch(val->bw) {
+      switch (val->bw)
+      {
         case LIS2DUX12_ODR_div_4:
         case LIS2DUX12_ODR_div_8:
         case LIS2DUX12_ODR_div_16:
@@ -379,7 +418,8 @@ int32_t lis2dux12_mode_set(const stmdev_ctx_t *ctx, lis2dux12_md_t *val)
       }
       break;
     case LIS2DUX12_12Hz5_LP:
-      switch(val->bw) {
+      switch (val->bw)
+      {
         case LIS2DUX12_ODR_div_8:
         case LIS2DUX12_ODR_div_16:
           return -1;
@@ -392,7 +432,8 @@ int32_t lis2dux12_mode_set(const stmdev_ctx_t *ctx, lis2dux12_md_t *val)
       }
       break;
     case LIS2DUX12_25Hz_LP:
-      switch(val->bw) {
+      switch (val->bw)
+      {
         case LIS2DUX12_ODR_div_16:
           return -1;
         case LIS2DUX12_ODR_div_2:
@@ -427,13 +468,14 @@ int32_t lis2dux12_mode_set(const stmdev_ctx_t *ctx, lis2dux12_md_t *val)
       break;
   }
 
-  ret += lis2dux12_read_reg(ctx, LIS2DUX12_CTRL3, (uint8_t*)&ctrl3, 1);
+  ret += lis2dux12_read_reg(ctx, LIS2DUX12_CTRL3, (uint8_t *)&ctrl3, 1);
 
   ctrl3.hp_en = (((uint8_t)val->odr & 0x30U) == 0x10U) ? 1U : 0U;
 
-  if (ret == 0) {
-    ret = lis2dux12_write_reg(ctx, LIS2DUX12_CTRL5, (uint8_t*)&ctrl5, 1);
-    ret += lis2dux12_write_reg(ctx, LIS2DUX12_CTRL3, (uint8_t*)&ctrl3, 1);
+  if (ret == 0)
+  {
+    ret = lis2dux12_write_reg(ctx, LIS2DUX12_CTRL5, (uint8_t *)&ctrl5, 1);
+    ret += lis2dux12_write_reg(ctx, LIS2DUX12_CTRL3, (uint8_t *)&ctrl3, 1);
   }
 
   return ret;
@@ -453,10 +495,11 @@ int32_t lis2dux12_mode_get(const stmdev_ctx_t *ctx, lis2dux12_md_t *val)
   lis2dux12_ctrl5_t ctrl5;
   int32_t ret;
 
-  ret = lis2dux12_read_reg(ctx, LIS2DUX12_CTRL5, (uint8_t*)&ctrl5, 1);
-  ret += lis2dux12_read_reg(ctx, LIS2DUX12_CTRL3, (uint8_t*)&ctrl3, 1);
+  ret = lis2dux12_read_reg(ctx, LIS2DUX12_CTRL5, (uint8_t *)&ctrl5, 1);
+  ret += lis2dux12_read_reg(ctx, LIS2DUX12_CTRL3, (uint8_t *)&ctrl3, 1);
 
-  switch (ctrl5.odr) {
+  switch (ctrl5.odr)
+  {
     case LIS2DUX12_OFF:
       val->odr = LIS2DUX12_OFF;
       break;
@@ -504,7 +547,8 @@ int32_t lis2dux12_mode_get(const stmdev_ctx_t *ctx, lis2dux12_md_t *val)
       break;
   }
 
-  switch (ctrl5.fs) {
+  switch (ctrl5.fs)
+  {
     case LIS2DUX12_2g:
       val->fs = LIS2DUX12_2g;
       break;
@@ -522,7 +566,8 @@ int32_t lis2dux12_mode_get(const stmdev_ctx_t *ctx, lis2dux12_md_t *val)
       break;
   }
 
-  switch (ctrl5.bw) {
+  switch (ctrl5.bw)
+  {
     case LIS2DUX12_ODR_div_2:
       val->bw = LIS2DUX12_ODR_div_2;
       break;
@@ -626,7 +671,8 @@ int32_t lis2dux12_exit_deep_power_down(const stmdev_ctx_t *ctx)
   if_wake_up.soft_pd = PROPERTY_ENABLE;
   ret = lis2dux12_write_reg(ctx, LIS2DUX12_IF_WAKE_UP, (uint8_t *)&if_wake_up, 1);
 
-  if (ctx->mdelay != NULL) {
+  if (ctx->mdelay != NULL)
+  {
     ctx->mdelay(25); /* See AN5909 - paragraphs 3.1.1.1 and 3.1.1.2 */
   }
 
@@ -646,11 +692,13 @@ int32_t lis2dux12_trigger_sw(const stmdev_ctx_t *ctx, lis2dux12_md_t *md)
   lis2dux12_ctrl4_t ctrl4;
   int32_t ret = 0;
 
-  if ( md->odr == LIS2DUX12_TRIG_SW ) {
-    ret = lis2dux12_read_reg(ctx, LIS2DUX12_CTRL4, (uint8_t*)&ctrl4, 1);
+  if (md->odr == LIS2DUX12_TRIG_SW)
+  {
+    ret = lis2dux12_read_reg(ctx, LIS2DUX12_CTRL4, (uint8_t *)&ctrl4, 1);
     ctrl4.soc = PROPERTY_ENABLE;
-    if (ret == 0) {
-      ret = lis2dux12_write_reg(ctx, LIS2DUX12_CTRL4, (uint8_t*)&ctrl4, 1);
+    if (ret == 0)
+    {
+      ret = lis2dux12_write_reg(ctx, LIS2DUX12_CTRL4, (uint8_t *)&ctrl4, 1);
     }
   }
   return ret;
@@ -661,7 +709,7 @@ int32_t lis2dux12_all_sources_get(const stmdev_ctx_t *ctx, lis2dux12_all_sources
   lis2dux12_status_register_t status;
   int32_t ret;
 
-  ret = lis2dux12_read_reg(ctx, LIS2DUX12_STATUS, (uint8_t*)&status, 1);
+  ret = lis2dux12_read_reg(ctx, LIS2DUX12_STATUS, (uint8_t *)&status, 1);
   val->drdy = status.drdy;
 
   if (ret == 0 && status.int_global == 0x1U)
@@ -670,9 +718,9 @@ int32_t lis2dux12_all_sources_get(const stmdev_ctx_t *ctx, lis2dux12_all_sources
     lis2dux12_tap_src_t tap_src;
     lis2dux12_sixd_src_t sixd_src;
 
-    ret = lis2dux12_read_reg(ctx, LIS2DUX12_SIXD_SRC, (uint8_t*)&sixd_src, 1);
-    ret += lis2dux12_read_reg(ctx, LIS2DUX12_WAKE_UP_SRC, (uint8_t*)&wu_src, 1);
-    ret += lis2dux12_read_reg(ctx, LIS2DUX12_TAP_SRC, (uint8_t*)&tap_src, 1);
+    ret = lis2dux12_read_reg(ctx, LIS2DUX12_SIXD_SRC, (uint8_t *)&sixd_src, 1);
+    ret += lis2dux12_read_reg(ctx, LIS2DUX12_WAKE_UP_SRC, (uint8_t *)&wu_src, 1);
+    ret += lis2dux12_read_reg(ctx, LIS2DUX12_TAP_SRC, (uint8_t *)&tap_src, 1);
 
     val->six_d    = sixd_src.d6d_ia;
     val->six_d_xl = sixd_src.xl;
@@ -708,7 +756,7 @@ int32_t lis2dux12_all_sources_get(const stmdev_ctx_t *ctx, lis2dux12_all_sources
   *
   */
 int32_t lis2dux12_xl_data_get(const stmdev_ctx_t *ctx, lis2dux12_md_t *md,
-                          lis2dux12_xl_data_t *data)
+                              lis2dux12_xl_data_t *data)
 {
   uint8_t buff[6];
   int32_t ret;
@@ -719,22 +767,24 @@ int32_t lis2dux12_xl_data_get(const stmdev_ctx_t *ctx, lis2dux12_md_t *md,
 
   /* acceleration conversion */
   j = 0U;
-  for (i = 0U; i < 3U; i++) {
-    data->raw[i] = (int16_t)buff[j+1U];
+  for (i = 0U; i < 3U; i++)
+  {
+    data->raw[i] = (int16_t)buff[j + 1U];
     data->raw[i] = (data->raw[i] * 256) + (int16_t) buff[j];
-    j+=2U;
-    switch ( md->fs ) {
+    j += 2U;
+    switch (md->fs)
+    {
       case LIS2DUX12_2g:
-        data->mg[i] =lis2dux12_from_fs2g_to_mg(data->raw[i]);
+        data->mg[i] = lis2dux12_from_fs2g_to_mg(data->raw[i]);
         break;
       case LIS2DUX12_4g:
-        data->mg[i] =lis2dux12_from_fs4g_to_mg(data->raw[i]);
+        data->mg[i] = lis2dux12_from_fs4g_to_mg(data->raw[i]);
         break;
       case LIS2DUX12_8g:
-        data->mg[i] =lis2dux12_from_fs8g_to_mg(data->raw[i]);
+        data->mg[i] = lis2dux12_from_fs8g_to_mg(data->raw[i]);
         break;
       case LIS2DUX12_16g:
-        data->mg[i] =lis2dux12_from_fs16g_to_mg(data->raw[i]);
+        data->mg[i] = lis2dux12_from_fs16g_to_mg(data->raw[i]);
         break;
       default:
         data->mg[i] = 0.0f;
@@ -755,7 +805,7 @@ int32_t lis2dux12_xl_data_get(const stmdev_ctx_t *ctx, lis2dux12_md_t *md,
   *
   */
 int32_t lis2dux12_outt_data_get(const stmdev_ctx_t *ctx, lis2dux12_md_t *md,
-                          lis2dux12_outt_data_t *data)
+                                lis2dux12_outt_data_t *data)
 {
   uint8_t buff[2];
   int32_t ret;
@@ -784,31 +834,32 @@ int32_t lis2dux12_self_test_sign_set(const stmdev_ctx_t *ctx, lis2dux12_xl_self_
   lis2dux12_wake_up_dur_t wkup_dur;
   int32_t ret;
 
-  ret = lis2dux12_read_reg(ctx, LIS2DUX12_CTRL3, (uint8_t*)&ctrl3, 1);
-  ret += lis2dux12_read_reg(ctx, LIS2DUX12_WAKE_UP_DUR, (uint8_t*)&wkup_dur, 1);
+  ret = lis2dux12_read_reg(ctx, LIS2DUX12_CTRL3, (uint8_t *)&ctrl3, 1);
+  ret += lis2dux12_read_reg(ctx, LIS2DUX12_WAKE_UP_DUR, (uint8_t *)&wkup_dur, 1);
 
-  switch (val) {
-  case LIS2DUX12_XL_ST_POSITIVE:
-    ctrl3.st_sign_x = 1;
-    ctrl3.st_sign_y = 1;
-    wkup_dur.st_sign_z = 0;
-    break;
+  switch (val)
+  {
+    case LIS2DUX12_XL_ST_POSITIVE:
+      ctrl3.st_sign_x = 1;
+      ctrl3.st_sign_y = 1;
+      wkup_dur.st_sign_z = 0;
+      break;
 
-  case LIS2DUX12_XL_ST_NEGATIVE:
-    ctrl3.st_sign_x = 0;
-    ctrl3.st_sign_y = 0;
-    wkup_dur.st_sign_z = 1;
-    break;
+    case LIS2DUX12_XL_ST_NEGATIVE:
+      ctrl3.st_sign_x = 0;
+      ctrl3.st_sign_y = 0;
+      wkup_dur.st_sign_z = 1;
+      break;
 
-  case LIS2DUX12_XL_ST_DISABLE:
-  default:
-    ret = -1;
-    break;
+    case LIS2DUX12_XL_ST_DISABLE:
+    default:
+      ret = -1;
+      break;
   }
 
 
-  ret += lis2dux12_write_reg(ctx, LIS2DUX12_CTRL3, (uint8_t*)&ctrl3, 1);
-  ret += lis2dux12_write_reg(ctx, LIS2DUX12_WAKE_UP_DUR, (uint8_t*)&wkup_dur, 1);
+  ret += lis2dux12_write_reg(ctx, LIS2DUX12_CTRL3, (uint8_t *)&ctrl3, 1);
+  ret += lis2dux12_write_reg(ctx, LIS2DUX12_WAKE_UP_DUR, (uint8_t *)&wkup_dur, 1);
 
   return ret;
 }
@@ -826,14 +877,16 @@ int32_t lis2dux12_self_test_start(const stmdev_ctx_t *ctx, uint8_t val)
   lis2dux12_self_test_t self_test;
   int32_t ret;
 
-  if (val != 1U && val != 2U) {
+  if (val != 1U && val != 2U)
+  {
     return -1;
   }
 
-  ret = lis2dux12_read_reg(ctx, LIS2DUX12_SELF_TEST, (uint8_t*)&self_test, 1);
-  if (ret == 0) {
+  ret = lis2dux12_read_reg(ctx, LIS2DUX12_SELF_TEST, (uint8_t *)&self_test, 1);
+  if (ret == 0)
+  {
     self_test.st = (uint8_t) val;
-    ret = lis2dux12_write_reg(ctx, LIS2DUX12_SELF_TEST, (uint8_t*)&self_test, 1);
+    ret = lis2dux12_write_reg(ctx, LIS2DUX12_SELF_TEST, (uint8_t *)&self_test, 1);
   }
   return ret;
 }
@@ -850,10 +903,11 @@ int32_t lis2dux12_self_test_stop(const stmdev_ctx_t *ctx)
   lis2dux12_self_test_t self_test;
   int32_t ret;
 
-  ret = lis2dux12_read_reg(ctx, LIS2DUX12_SELF_TEST, (uint8_t*)&self_test, 1);
-  if (ret == 0) {
+  ret = lis2dux12_read_reg(ctx, LIS2DUX12_SELF_TEST, (uint8_t *)&self_test, 1);
+  if (ret == 0)
+  {
     self_test.st = 0;
-    ret = lis2dux12_write_reg(ctx, LIS2DUX12_SELF_TEST, (uint8_t*)&self_test, 1);
+    ret = lis2dux12_write_reg(ctx, LIS2DUX12_SELF_TEST, (uint8_t *)&self_test, 1);
   }
   return ret;
 }
@@ -901,26 +955,27 @@ int32_t lis2dux12_i3c_configure_set(const stmdev_ctx_t *ctx, lis2dux12_i3c_cfg_t
   val->drstdaa_en = i3c_cfg.dis_drstdaa;
   val->asf_on = i3c_cfg.asf_on;
 
-  switch (val->bus_act_sel) {
+  switch (val->bus_act_sel)
+  {
     case LIS2DUX12_I3C_BUS_AVAIL_TIME_20US:
-     val->bus_act_sel = LIS2DUX12_I3C_BUS_AVAIL_TIME_20US;
-     break;
+      val->bus_act_sel = LIS2DUX12_I3C_BUS_AVAIL_TIME_20US;
+      break;
 
     case LIS2DUX12_I3C_BUS_AVAIL_TIME_50US:
-     val->bus_act_sel = LIS2DUX12_I3C_BUS_AVAIL_TIME_50US;
-     break;
+      val->bus_act_sel = LIS2DUX12_I3C_BUS_AVAIL_TIME_50US;
+      break;
 
     case LIS2DUX12_I3C_BUS_AVAIL_TIME_1MS:
-     val->bus_act_sel = LIS2DUX12_I3C_BUS_AVAIL_TIME_1MS;
-     break;
+      val->bus_act_sel = LIS2DUX12_I3C_BUS_AVAIL_TIME_1MS;
+      break;
 
     case LIS2DUX12_I3C_BUS_AVAIL_TIME_25MS:
     default:
-     val->bus_act_sel = LIS2DUX12_I3C_BUS_AVAIL_TIME_25MS;
-     break;
+      val->bus_act_sel = LIS2DUX12_I3C_BUS_AVAIL_TIME_25MS;
+      break;
   }
 
- return ret;
+  return ret;
 }
 
 /**
@@ -1411,7 +1466,7 @@ int32_t lis2dux12_pin_int1_route_get(const stmdev_ctx_t *ctx, lis2dux12_pin_int_
   *
   */
 int32_t lis2dux12_emb_pin_int1_route_set(const stmdev_ctx_t *ctx,
-                                          lis2dux12_emb_pin_int_route_t *val)
+                                         lis2dux12_emb_pin_int_route_t *val)
 {
   lis2dux12_emb_func_int1_t emb_func_int1;
   lis2dux12_md1_cfg_t md1_cfg;
@@ -1453,7 +1508,7 @@ int32_t lis2dux12_emb_pin_int1_route_set(const stmdev_ctx_t *ctx,
   *
   */
 int32_t lis2dux12_emb_pin_int1_route_get(const stmdev_ctx_t *ctx,
-                                          lis2dux12_emb_pin_int_route_t *val)
+                                         lis2dux12_emb_pin_int_route_t *val)
 {
   lis2dux12_emb_func_int1_t emb_func_int1;
   int32_t ret;
@@ -1569,7 +1624,7 @@ int32_t lis2dux12_pin_int2_route_get(const stmdev_ctx_t *ctx, lis2dux12_pin_int_
   *
   */
 int32_t lis2dux12_emb_pin_int2_route_set(const stmdev_ctx_t *ctx,
-                                          lis2dux12_emb_pin_int_route_t *val)
+                                         lis2dux12_emb_pin_int_route_t *val)
 {
   lis2dux12_emb_func_int2_t emb_func_int2;
   lis2dux12_md2_cfg_t md2_cfg;
@@ -1611,7 +1666,7 @@ int32_t lis2dux12_emb_pin_int2_route_set(const stmdev_ctx_t *ctx,
   *
   */
 int32_t lis2dux12_emb_pin_int2_route_get(const stmdev_ctx_t *ctx,
-                                          lis2dux12_emb_pin_int_route_t *val)
+                                         lis2dux12_emb_pin_int_route_t *val)
 {
   lis2dux12_emb_func_int2_t emb_func_int2;
   int32_t ret;
@@ -1723,7 +1778,8 @@ int32_t lis2dux12_int_config_get(const stmdev_ctx_t *ctx, lis2dux12_int_config_t
   * @retval          interface status (MANDATORY: return 0 -> no Error)
   *
   */
-int32_t lis2dux12_embedded_int_config_set(const stmdev_ctx_t *ctx, lis2dux12_embedded_int_config_t val)
+int32_t lis2dux12_embedded_int_config_set(const stmdev_ctx_t *ctx,
+                                          lis2dux12_embedded_int_config_t val)
 {
   lis2dux12_page_rw_t page_rw;
   int32_t ret;
@@ -1761,7 +1817,8 @@ int32_t lis2dux12_embedded_int_config_set(const stmdev_ctx_t *ctx, lis2dux12_emb
   * @retval          interface status (MANDATORY: return 0 -> no Error)
   *
   */
-int32_t lis2dux12_embedded_int_config_get(const stmdev_ctx_t *ctx, lis2dux12_embedded_int_config_t *val)
+int32_t lis2dux12_embedded_int_config_get(const stmdev_ctx_t *ctx,
+                                          lis2dux12_embedded_int_config_t *val)
 {
   lis2dux12_page_rw_t page_rw;
   int32_t ret;
@@ -1771,9 +1828,12 @@ int32_t lis2dux12_embedded_int_config_get(const stmdev_ctx_t *ctx, lis2dux12_emb
   {
     ret = lis2dux12_read_reg(ctx, LIS2DUX12_PAGE_RW, (uint8_t *)&page_rw, 1);
 
-    if (page_rw.emb_func_lir == 0U) {
+    if (page_rw.emb_func_lir == 0U)
+    {
       *val = LIS2DUX12_EMBEDDED_INT_LEVEL;
-   } else {
+    }
+    else
+    {
       *val = LIS2DUX12_EMBEDDED_INT_LATCHED;
     }
   }
@@ -1824,7 +1884,8 @@ int32_t lis2dux12_fifo_mode_set(const stmdev_ctx_t *ctx, lis2dux12_fifo_mode_t v
       ctrl4.fifo_en = 1;
       fifo_ctrl.fifo_mode = ((uint8_t)val.operation & 0x7U);
     }
-    else {
+    else
+    {
       ctrl4.fifo_en = 0;
     }
 
@@ -1844,7 +1905,8 @@ int32_t lis2dux12_fifo_mode_set(const stmdev_ctx_t *ctx, lis2dux12_fifo_mode_t v
     fifo_ctrl.cfg_chg_en = val.cfg_change_in_fifo;
 
     /* set watermark */
-    if (val.watermark > 0U) {
+    if (val.watermark > 0U)
+    {
       fifo_ctrl.stop_on_fth = 1;
       fifo_wtm.fth = val.watermark;
     }
@@ -1882,10 +1944,12 @@ int32_t lis2dux12_fifo_mode_get(const stmdev_ctx_t *ctx, lis2dux12_fifo_mode_t *
   if (ret == 0)
   {
     /* get FIFO mode */
-    if (ctrl4.fifo_en == 0U) {
+    if (ctrl4.fifo_en == 0U)
+    {
       val->operation = LIS2DUX12_FIFO_OFF;
     }
-    else {
+    else
+    {
       val->operation = (lis2dux12_operation_t)fifo_ctrl.fifo_mode;
     }
     val->cfg_change_in_fifo = fifo_ctrl.cfg_chg_en;
@@ -1961,8 +2025,8 @@ int32_t lis2dux12_fifo_out_raw_get(const stmdev_ctx_t *ctx, uint8_t *buff)
 }
 
 int32_t lis2dux12_fifo_data_get(const stmdev_ctx_t *ctx, lis2dux12_md_t *md,
-                                 lis2dux12_fifo_mode_t *fmd,
-                                 lis2dux12_fifo_data_t *data)
+                                lis2dux12_fifo_mode_t *fmd,
+                                lis2dux12_fifo_data_t *data)
 {
   lis2dux12_fifo_data_out_tag_t fifo_tag;
   uint8_t fifo_raw[6];
@@ -1971,18 +2035,21 @@ int32_t lis2dux12_fifo_data_get(const stmdev_ctx_t *ctx, lis2dux12_md_t *md,
   ret = lis2dux12_read_reg(ctx, LIS2DUX12_FIFO_DATA_OUT_TAG, (uint8_t *)&fifo_tag, 1);
   data->tag = fifo_tag.tag_sensor;
 
-  switch (fifo_tag.tag_sensor) {
+  switch (fifo_tag.tag_sensor)
+  {
     case LIS2DUX12_XL_ONLY_2X_TAG:
       /* A FIFO sample consists of 2X 8-bits 3-axis XL at ODR/2 */
       ret = lis2dux12_fifo_out_raw_get(ctx, fifo_raw);
-      for (i = 0; i < 3; i++) {
+      for (i = 0; i < 3; i++)
+      {
         data->xl[0].raw[i] = (int16_t)fifo_raw[i] * 256;
         data->xl[1].raw[i] = (int16_t)fifo_raw[3 + i] * 256;
       }
       break;
     case LIS2DUX12_XL_TEMP_TAG:
       ret = lis2dux12_fifo_out_raw_get(ctx, fifo_raw);
-      if (fmd->xl_only == 0x0U) {
+      if (fmd->xl_only == 0x0U)
+      {
         /* A FIFO sample consists of 12-bits 3-axis XL + T at ODR*/
         data->xl[0].raw[0] = (int16_t)fifo_raw[0];
         data->xl[0].raw[0] = (data->xl[0].raw[0] + (int16_t)fifo_raw[1] * 256) * 16;
@@ -1993,65 +2060,69 @@ int32_t lis2dux12_fifo_data_get(const stmdev_ctx_t *ctx, lis2dux12_md_t *md,
         data->heat.raw = (int16_t)fifo_raw[4] / 16;
         data->heat.raw = (data->heat.raw + ((int16_t)fifo_raw[5] * 16)) * 16;
         data->heat.deg_c = lis2dux12_from_lsb_to_celsius(data->heat.raw);
-      } else {
+      }
+      else
+      {
         /* A FIFO sample consists of 16-bits 3-axis XL at ODR  */
         data->xl[0].raw[0] = (int16_t)fifo_raw[0] + (int16_t)fifo_raw[1] * 256;
         data->xl[0].raw[1] = (int16_t)fifo_raw[1] + (int16_t)fifo_raw[3] * 256;
         data->xl[0].raw[2] = (int16_t)fifo_raw[2] + (int16_t)fifo_raw[5] * 256;
       }
       break;
-     case LIS2DUX12_TIMESTAMP_TAG:
-       ret = lis2dux12_fifo_out_raw_get(ctx, fifo_raw);
+    case LIS2DUX12_TIMESTAMP_TAG:
+      ret = lis2dux12_fifo_out_raw_get(ctx, fifo_raw);
 
-       data->cfg_chg.cfg_change = fifo_raw[0] >> 7;
-       data->cfg_chg.odr = (fifo_raw[0] >> 3) & 0xFU;
-       data->cfg_chg.bw = (fifo_raw[0] >> 1) & 0x3U;
-       data->cfg_chg.lp_hp = fifo_raw[0] & 0x1U;
-       data->cfg_chg.fs = (fifo_raw[1] >> 5) & 0x3U;
-       data->cfg_chg.dec_ts = (fifo_raw[1] >> 3) & 0x3U;
-       data->cfg_chg.odr_xl_batch = fifo_raw[1] & 0x7U;
+      data->cfg_chg.cfg_change = fifo_raw[0] >> 7;
+      data->cfg_chg.odr = (fifo_raw[0] >> 3) & 0xFU;
+      data->cfg_chg.bw = (fifo_raw[0] >> 1) & 0x3U;
+      data->cfg_chg.lp_hp = fifo_raw[0] & 0x1U;
+      data->cfg_chg.fs = (fifo_raw[1] >> 5) & 0x3U;
+      data->cfg_chg.dec_ts = (fifo_raw[1] >> 3) & 0x3U;
+      data->cfg_chg.odr_xl_batch = fifo_raw[1] & 0x7U;
 
-       data->cfg_chg.timestamp = fifo_raw[5];
-       data->cfg_chg.timestamp = (data->cfg_chg.timestamp * 256U) +  fifo_raw[4];
-       data->cfg_chg.timestamp = (data->cfg_chg.timestamp * 256U) +  fifo_raw[3];
-       data->cfg_chg.timestamp = (data->cfg_chg.timestamp * 256U) +  fifo_raw[2];
-       break;
+      data->cfg_chg.timestamp = fifo_raw[5];
+      data->cfg_chg.timestamp = (data->cfg_chg.timestamp * 256U) +  fifo_raw[4];
+      data->cfg_chg.timestamp = (data->cfg_chg.timestamp * 256U) +  fifo_raw[3];
+      data->cfg_chg.timestamp = (data->cfg_chg.timestamp * 256U) +  fifo_raw[2];
+      break;
 
-     case LIS2DUX12_STEP_COUNTER_TAG:
-       ret = lis2dux12_fifo_out_raw_get(ctx, fifo_raw);
+    case LIS2DUX12_STEP_COUNTER_TAG:
+      ret = lis2dux12_fifo_out_raw_get(ctx, fifo_raw);
 
-       data->pedo.steps = fifo_raw[1];
-       data->pedo.steps = (data->pedo.steps * 256U) +  fifo_raw[0];
+      data->pedo.steps = fifo_raw[1];
+      data->pedo.steps = (data->pedo.steps * 256U) +  fifo_raw[0];
 
-       data->pedo.timestamp = fifo_raw[5];
-       data->pedo.timestamp = (data->pedo.timestamp * 256U) +  fifo_raw[4];
-       data->pedo.timestamp = (data->pedo.timestamp * 256U) +  fifo_raw[3];
-       data->pedo.timestamp = (data->pedo.timestamp * 256U) +  fifo_raw[2];
+      data->pedo.timestamp = fifo_raw[5];
+      data->pedo.timestamp = (data->pedo.timestamp * 256U) +  fifo_raw[4];
+      data->pedo.timestamp = (data->pedo.timestamp * 256U) +  fifo_raw[3];
+      data->pedo.timestamp = (data->pedo.timestamp * 256U) +  fifo_raw[2];
 
-       break;
+      break;
 
-     case LIS2DUX12_FIFO_EMPTY:
-     default:
-       break;
+    case LIS2DUX12_FIFO_EMPTY:
+    default:
+      break;
   }
 
-  for (i = 0; i < 3; i++) {
-    switch ( md->fs ) {
+  for (i = 0; i < 3; i++)
+  {
+    switch (md->fs)
+    {
       case LIS2DUX12_2g:
-        data->xl[0].mg[i] =lis2dux12_from_fs2g_to_mg(data->xl[0].raw[i]);
-        data->xl[1].mg[i] =lis2dux12_from_fs2g_to_mg(data->xl[1].raw[i]);
+        data->xl[0].mg[i] = lis2dux12_from_fs2g_to_mg(data->xl[0].raw[i]);
+        data->xl[1].mg[i] = lis2dux12_from_fs2g_to_mg(data->xl[1].raw[i]);
         break;
       case LIS2DUX12_4g:
-        data->xl[0].mg[i] =lis2dux12_from_fs4g_to_mg(data->xl[0].raw[i]);
-        data->xl[1].mg[i] =lis2dux12_from_fs4g_to_mg(data->xl[1].raw[i]);
+        data->xl[0].mg[i] = lis2dux12_from_fs4g_to_mg(data->xl[0].raw[i]);
+        data->xl[1].mg[i] = lis2dux12_from_fs4g_to_mg(data->xl[1].raw[i]);
         break;
       case LIS2DUX12_8g:
-        data->xl[0].mg[i] =lis2dux12_from_fs8g_to_mg(data->xl[0].raw[i]);
-        data->xl[1].mg[i] =lis2dux12_from_fs8g_to_mg(data->xl[1].raw[i]);
+        data->xl[0].mg[i] = lis2dux12_from_fs8g_to_mg(data->xl[0].raw[i]);
+        data->xl[1].mg[i] = lis2dux12_from_fs8g_to_mg(data->xl[1].raw[i]);
         break;
       case LIS2DUX12_16g:
-        data->xl[0].mg[i] =lis2dux12_from_fs16g_to_mg(data->xl[0].raw[i]);
-        data->xl[1].mg[i] =lis2dux12_from_fs16g_to_mg(data->xl[1].raw[i]);
+        data->xl[0].mg[i] = lis2dux12_from_fs16g_to_mg(data->xl[0].raw[i]);
+        data->xl[1].mg[i] = lis2dux12_from_fs16g_to_mg(data->xl[1].raw[i]);
         break;
       default:
         data->xl[0].mg[i] = 0.0f;
@@ -2090,7 +2161,8 @@ int32_t lis2dux12_stpcnt_mode_set(const stmdev_ctx_t *ctx, lis2dux12_stpcnt_mode
   ret += lis2dux12_read_reg(ctx, LIS2DUX12_EMB_FUNC_EN_B, (uint8_t *)&emb_func_en_b, 1);
   ret += lis2dux12_read_reg(ctx, LIS2DUX12_EMB_FUNC_FIFO_EN, (uint8_t *)&emb_func_fifo_en, 1);
 
-  if ((val.false_step_rej == PROPERTY_ENABLE)  && ((emb_func_en_a.mlc_before_fsm_en & emb_func_en_b.mlc_en) == PROPERTY_DISABLE))
+  if ((val.false_step_rej == PROPERTY_ENABLE)
+      && ((emb_func_en_a.mlc_before_fsm_en & emb_func_en_b.mlc_en) == PROPERTY_DISABLE))
   {
     emb_func_en_a.mlc_before_fsm_en = PROPERTY_ENABLE;
   }
@@ -2102,12 +2174,14 @@ int32_t lis2dux12_stpcnt_mode_set(const stmdev_ctx_t *ctx, lis2dux12_stpcnt_mode
   ret += lis2dux12_write_reg(ctx, LIS2DUX12_EMB_FUNC_EN_A, (uint8_t *)&emb_func_en_a, 1);
 
   ret += lis2dux12_mem_bank_set(ctx, LIS2DUX12_MAIN_MEM_BANK);
-  ret += lis2dux12_ln_pg_read(ctx, LIS2DUX12_EMB_ADV_PG_0 + LIS2DUX12_PEDO_CMD_REG, (uint8_t *)&pedo_cmd_reg, 1);
+  ret += lis2dux12_ln_pg_read(ctx, LIS2DUX12_EMB_ADV_PG_0 + LIS2DUX12_PEDO_CMD_REG,
+                              (uint8_t *)&pedo_cmd_reg, 1);
 
   if (ret == 0)
   {
     pedo_cmd_reg.fp_rejection_en = val.false_step_rej;
-    ret += lis2dux12_ln_pg_write(ctx, LIS2DUX12_EMB_ADV_PG_0 + LIS2DUX12_PEDO_CMD_REG, (uint8_t *)&pedo_cmd_reg, 1);
+    ret += lis2dux12_ln_pg_write(ctx, LIS2DUX12_EMB_ADV_PG_0 + LIS2DUX12_PEDO_CMD_REG,
+                                 (uint8_t *)&pedo_cmd_reg, 1);
   }
 
   return ret;
@@ -2131,7 +2205,8 @@ int32_t lis2dux12_stpcnt_mode_get(const stmdev_ctx_t *ctx, lis2dux12_stpcnt_mode
   ret += lis2dux12_read_reg(ctx, LIS2DUX12_EMB_FUNC_EN_A, (uint8_t *)&emb_func_en_a, 1);
   ret += lis2dux12_mem_bank_set(ctx, LIS2DUX12_MAIN_MEM_BANK);
 
-  ret += lis2dux12_ln_pg_read(ctx, LIS2DUX12_EMB_ADV_PG_0 + LIS2DUX12_PEDO_CMD_REG, (uint8_t *)&pedo_cmd_reg, 1);
+  ret += lis2dux12_ln_pg_read(ctx, LIS2DUX12_EMB_ADV_PG_0 + LIS2DUX12_PEDO_CMD_REG,
+                              (uint8_t *)&pedo_cmd_reg, 1);
   val->false_step_rej = pedo_cmd_reg.fp_rejection_en;
   val->step_counter_enable = emb_func_en_a.pedo_en;
 
@@ -2201,7 +2276,8 @@ int32_t lis2dux12_stpcnt_debounce_set(const stmdev_ctx_t *ctx, uint8_t val)
   int32_t ret;
 
   pedo_deb_steps_conf.deb_step = val;
-  ret = lis2dux12_ln_pg_write(ctx, LIS2DUX12_EMB_ADV_PG_0 + LIS2DUX12_PEDO_DEB_STEPS_CONF, (uint8_t *)&pedo_deb_steps_conf, 1);
+  ret = lis2dux12_ln_pg_write(ctx, LIS2DUX12_EMB_ADV_PG_0 + LIS2DUX12_PEDO_DEB_STEPS_CONF,
+                              (uint8_t *)&pedo_deb_steps_conf, 1);
 
   return ret;
 }
@@ -2219,7 +2295,8 @@ int32_t lis2dux12_stpcnt_debounce_get(const stmdev_ctx_t *ctx, uint8_t *val)
   lis2dux12_pedo_deb_steps_conf_t pedo_deb_steps_conf;
   int32_t ret;
 
-  ret = lis2dux12_ln_pg_read(ctx, LIS2DUX12_EMB_ADV_PG_0 + LIS2DUX12_PEDO_DEB_STEPS_CONF, (uint8_t *)&pedo_deb_steps_conf, 1);
+  ret = lis2dux12_ln_pg_read(ctx, LIS2DUX12_EMB_ADV_PG_0 + LIS2DUX12_PEDO_DEB_STEPS_CONF,
+                             (uint8_t *)&pedo_deb_steps_conf, 1);
   *val = pedo_deb_steps_conf.deb_step;
 
   return ret;
@@ -2241,7 +2318,8 @@ int32_t lis2dux12_stpcnt_period_set(const stmdev_ctx_t *ctx, uint16_t val)
   buff[1] = (uint8_t)(val / 256U);
   buff[0] = (uint8_t)(val - (buff[1] * 256U));
 
-  ret = lis2dux12_ln_pg_write(ctx, LIS2DUX12_EMB_ADV_PG_0 + LIS2DUX12_PEDO_SC_DELTAT_L, (uint8_t *)buff, 2);
+  ret = lis2dux12_ln_pg_write(ctx, LIS2DUX12_EMB_ADV_PG_0 + LIS2DUX12_PEDO_SC_DELTAT_L,
+                              (uint8_t *)buff, 2);
 
   return ret;
 }
@@ -2259,7 +2337,8 @@ int32_t lis2dux12_stpcnt_period_get(const stmdev_ctx_t *ctx, uint16_t *val)
   uint8_t buff[2];
   int32_t ret;
 
-  ret = lis2dux12_ln_pg_read(ctx, LIS2DUX12_EMB_ADV_PG_0 + LIS2DUX12_PEDO_SC_DELTAT_L, (uint8_t *)buff, 2);
+  ret = lis2dux12_ln_pg_read(ctx, LIS2DUX12_EMB_ADV_PG_0 + LIS2DUX12_PEDO_SC_DELTAT_L,
+                             (uint8_t *)buff, 2);
   *val = buff[1];
   *val = (*val * 256U) + buff[0];
 
@@ -2565,7 +2644,7 @@ int32_t lis2dux12_sixd_config_set(const stmdev_ctx_t *ctx, lis2dux12_sixd_config
 
   if (ret == 0)
   {
-    sixd.d4d_en =  ((uint8_t)val.mode);
+    sixd.d4d_en = ((uint8_t)val.mode);
     sixd.d6d_ths = ((uint8_t)val.threshold);
     ret = lis2dux12_write_reg(ctx, LIS2DUX12_SIXD, (uint8_t *)&sixd, 1);
   }
@@ -2664,11 +2743,14 @@ int32_t lis2dux12_wakeup_config_set(const stmdev_ctx_t *ctx, lis2dux12_wakeup_co
     wup_ths.sleep_on = (uint8_t)val.wake_enable;
     ctrl4.inact_odr = (uint8_t)val.inact_odr;
 
-    if (val.wake_enable == LIS2DUX12_SLEEP_ON) {
+    if (val.wake_enable == LIS2DUX12_SLEEP_ON)
+    {
       ctrl1.wu_x_en = 1;
       ctrl1.wu_y_en = 1;
       ctrl1.wu_z_en = 1;
-    } else {
+    }
+    else
+    {
       ctrl1.wu_x_en = 0;
       ctrl1.wu_y_en = 0;
       ctrl1.wu_z_en = 0;
@@ -2710,26 +2792,27 @@ int32_t lis2dux12_wakeup_config_get(const stmdev_ctx_t *ctx, lis2dux12_wakeup_co
 
   if (ret == 0)
   {
-    switch(wup_dur.wake_dur) {
-    case 0x0:
-      val->wake_dur = (wup_dur_ext.wu_dur_extended == 1U) ?
-                       LIS2DUX12_3_ODR : LIS2DUX12_0_ODR;
-      break;
+    switch (wup_dur.wake_dur)
+    {
+      case 0x0:
+        val->wake_dur = (wup_dur_ext.wu_dur_extended == 1U) ?
+                        LIS2DUX12_3_ODR : LIS2DUX12_0_ODR;
+        break;
 
-    case 0x1:
-      val->wake_dur = (wup_dur_ext.wu_dur_extended == 1U) ?
-                       LIS2DUX12_7_ODR : LIS2DUX12_1_ODR;
-      break;
+      case 0x1:
+        val->wake_dur = (wup_dur_ext.wu_dur_extended == 1U) ?
+                        LIS2DUX12_7_ODR : LIS2DUX12_1_ODR;
+        break;
 
-    case 0x2:
-      val->wake_dur = (wup_dur_ext.wu_dur_extended == 1U) ?
-                       LIS2DUX12_11_ODR : LIS2DUX12_2_ODR;
-      break;
+      case 0x2:
+        val->wake_dur = (wup_dur_ext.wu_dur_extended == 1U) ?
+                        LIS2DUX12_11_ODR : LIS2DUX12_2_ODR;
+        break;
 
-    case 0x3:
-    default:
-      val->wake_dur = LIS2DUX12_15_ODR;
-      break;
+      case 0x3:
+      default:
+        val->wake_dur = LIS2DUX12_15_ODR;
+        break;
     }
 
     val->sleep_dur = wup_dur.sleep_dur;
@@ -2942,7 +3025,7 @@ int32_t lis2dux12_timestamp_raw_get(const stmdev_ctx_t *ctx, uint32_t *val)
   *
   */
 int32_t lis2dux12_long_cnt_flag_data_ready_get(const stmdev_ctx_t *ctx,
-                                              uint8_t *val)
+                                               uint8_t *val)
 {
   lis2dux12_emb_func_status_t emb_func_status;
   int32_t ret;
@@ -2952,7 +3035,7 @@ int32_t lis2dux12_long_cnt_flag_data_ready_get(const stmdev_ctx_t *ctx,
   if (ret == 0)
   {
     ret = lis2dux12_read_reg(ctx, LIS2DUX12_EMB_FUNC_STATUS,
-                              (uint8_t *)&emb_func_status, 1);
+                             (uint8_t *)&emb_func_status, 1);
 
     *val = emb_func_status.is_fsm_lc;
   }
@@ -2980,7 +3063,7 @@ int32_t lis2dux12_emb_fsm_en_set(const stmdev_ctx_t *ctx, uint8_t val)
   if (ret == 0)
   {
     ret = lis2dux12_read_reg(ctx, LIS2DUX12_EMB_FUNC_EN_B,
-                              (uint8_t *)&emb_func_en_b, 1);
+                             (uint8_t *)&emb_func_en_b, 1);
 
     emb_func_en_b.fsm_en = (uint8_t)val;
 
@@ -3011,12 +3094,12 @@ int32_t lis2dux12_emb_fsm_en_get(const stmdev_ctx_t *ctx, uint8_t *val)
   if (ret == 0)
   {
     ret = lis2dux12_read_reg(ctx, LIS2DUX12_EMB_FUNC_EN_B,
-                              (uint8_t *)&emb_func_en_b, 1);
+                             (uint8_t *)&emb_func_en_b, 1);
 
     *val = emb_func_en_b.fsm_en;
 
     ret += lis2dux12_write_reg(ctx, LIS2DUX12_EMB_FUNC_EN_B,
-                                (uint8_t *)&emb_func_en_b, 1);
+                               (uint8_t *)&emb_func_en_b, 1);
   }
 
   ret += lis2dux12_mem_bank_set(ctx, LIS2DUX12_MAIN_MEM_BANK);
@@ -3033,7 +3116,7 @@ int32_t lis2dux12_emb_fsm_en_get(const stmdev_ctx_t *ctx, uint8_t *val)
   *
   */
 int32_t lis2dux12_fsm_enable_set(const stmdev_ctx_t *ctx,
-                                  lis2dux12_emb_fsm_enable_t *val)
+                                 lis2dux12_emb_fsm_enable_t *val)
 {
   lis2dux12_emb_func_en_b_t emb_func_en_b;
   int32_t ret;
@@ -3043,13 +3126,13 @@ int32_t lis2dux12_fsm_enable_set(const stmdev_ctx_t *ctx,
   if (ret == 0)
   {
     ret = lis2dux12_write_reg(ctx, LIS2DUX12_FSM_ENABLE,
-                               (uint8_t *)&val->fsm_enable, 1);
+                              (uint8_t *)&val->fsm_enable, 1);
   }
 
   if (ret == 0)
   {
     ret = lis2dux12_read_reg(ctx, LIS2DUX12_EMB_FUNC_EN_B,
-                              (uint8_t *)&emb_func_en_b, 1);
+                             (uint8_t *)&emb_func_en_b, 1);
 
     if ((val->fsm_enable.fsm1_en |
          val->fsm_enable.fsm2_en |
@@ -3068,7 +3151,7 @@ int32_t lis2dux12_fsm_enable_set(const stmdev_ctx_t *ctx,
     }
 
     ret += lis2dux12_write_reg(ctx, LIS2DUX12_EMB_FUNC_EN_B,
-                                (uint8_t *)&emb_func_en_b, 1);
+                               (uint8_t *)&emb_func_en_b, 1);
   }
 
   ret += lis2dux12_mem_bank_set(ctx, LIS2DUX12_MAIN_MEM_BANK);
@@ -3085,7 +3168,7 @@ int32_t lis2dux12_fsm_enable_set(const stmdev_ctx_t *ctx,
   *
   */
 int32_t lis2dux12_fsm_enable_get(const stmdev_ctx_t *ctx,
-                                  lis2dux12_emb_fsm_enable_t *val)
+                                 lis2dux12_emb_fsm_enable_t *val)
 {
   int32_t ret;
 
@@ -3094,7 +3177,7 @@ int32_t lis2dux12_fsm_enable_get(const stmdev_ctx_t *ctx,
   if (ret == 0)
   {
     ret = lis2dux12_read_reg(ctx, LIS2DUX12_FSM_ENABLE,
-                              (uint8_t *)&val->fsm_enable, 1);
+                             (uint8_t *)&val->fsm_enable, 1);
   }
 
   ret += lis2dux12_mem_bank_set(ctx, LIS2DUX12_MAIN_MEM_BANK);
@@ -3166,7 +3249,7 @@ int32_t lis2dux12_long_cnt_get(const stmdev_ctx_t *ctx, uint16_t *val)
   *
   */
 int32_t lis2dux12_fsm_status_get(const stmdev_ctx_t *ctx,
-                                  lis2dux12_fsm_status_mainpage_t *val)
+                                 lis2dux12_fsm_status_mainpage_t *val)
 {
   return lis2dux12_read_reg(ctx, LIS2DUX12_FSM_STATUS_MAINPAGE,
                             (uint8_t *) val, 1);
@@ -3205,7 +3288,7 @@ int32_t lis2dux12_fsm_out_get(const stmdev_ctx_t *ctx, uint8_t *val)
   *
   */
 int32_t lis2dux12_fsm_data_rate_set(const stmdev_ctx_t *ctx,
-                                   lis2dux12_fsm_val_odr_t val)
+                                    lis2dux12_fsm_val_odr_t val)
 {
   lis2dux12_fsm_odr_t fsm_odr_reg;
   int32_t ret;
@@ -3215,11 +3298,11 @@ int32_t lis2dux12_fsm_data_rate_set(const stmdev_ctx_t *ctx,
   if (ret == 0)
   {
     ret = lis2dux12_read_reg(ctx, LIS2DUX12_FSM_ODR,
-                              (uint8_t *)&fsm_odr_reg, 1);
+                             (uint8_t *)&fsm_odr_reg, 1);
 
     fsm_odr_reg.fsm_odr = (uint8_t)val;
     ret += lis2dux12_write_reg(ctx, LIS2DUX12_FSM_ODR,
-                                (uint8_t *)&fsm_odr_reg, 1);
+                               (uint8_t *)&fsm_odr_reg, 1);
   }
 
   ret += lis2dux12_mem_bank_set(ctx, LIS2DUX12_MAIN_MEM_BANK);
@@ -3236,7 +3319,7 @@ int32_t lis2dux12_fsm_data_rate_set(const stmdev_ctx_t *ctx,
   *
   */
 int32_t lis2dux12_fsm_data_rate_get(const stmdev_ctx_t *ctx,
-                                   lis2dux12_fsm_val_odr_t *val)
+                                    lis2dux12_fsm_val_odr_t *val)
 {
   lis2dux12_fsm_odr_t fsm_odr_reg;
   int32_t ret;
@@ -3246,7 +3329,7 @@ int32_t lis2dux12_fsm_data_rate_get(const stmdev_ctx_t *ctx,
   if (ret == 0)
   {
     ret = lis2dux12_read_reg(ctx, LIS2DUX12_FSM_ODR,
-                              (uint8_t *)&fsm_odr_reg, 1);
+                             (uint8_t *)&fsm_odr_reg, 1);
   }
 
   ret += lis2dux12_mem_bank_set(ctx, LIS2DUX12_MAIN_MEM_BANK);
@@ -3307,7 +3390,7 @@ int32_t lis2dux12_fsm_init_set(const stmdev_ctx_t *ctx, uint8_t val)
   if (ret == 0)
   {
     ret = lis2dux12_read_reg(ctx, LIS2DUX12_EMB_FUNC_INIT_B,
-                              (uint8_t *)&emb_func_init_b, 1);
+                             (uint8_t *)&emb_func_init_b, 1);
 
     emb_func_init_b.fsm_init = (uint8_t)val;
 
@@ -3338,7 +3421,7 @@ int32_t lis2dux12_fsm_init_get(const stmdev_ctx_t *ctx, uint8_t *val)
   if (ret == 0)
   {
     ret = lis2dux12_read_reg(ctx, LIS2DUX12_EMB_FUNC_INIT_B,
-                              (uint8_t *)&emb_func_init_b, 1);
+                             (uint8_t *)&emb_func_init_b, 1);
 
     *val = emb_func_init_b.fsm_init;
   }
@@ -3413,7 +3496,7 @@ int32_t lis2dux12_fsm_fifo_en_get(const stmdev_ctx_t *ctx, uint8_t *val)
   *
   */
 int32_t lis2dux12_long_cnt_int_value_set(const stmdev_ctx_t *ctx,
-                                          uint16_t val)
+                                         uint16_t val)
 {
   uint8_t buff[2];
   int32_t ret;
@@ -3437,7 +3520,7 @@ int32_t lis2dux12_long_cnt_int_value_set(const stmdev_ctx_t *ctx,
   *
   */
 int32_t lis2dux12_long_cnt_int_value_get(const stmdev_ctx_t *ctx,
-                                        uint16_t *val)
+                                         uint16_t *val)
 {
   uint8_t buff[2];
   int32_t ret;
@@ -3458,7 +3541,7 @@ int32_t lis2dux12_long_cnt_int_value_get(const stmdev_ctx_t *ctx,
   *
   */
 int32_t lis2dux12_fsm_number_of_programs_set(const stmdev_ctx_t *ctx,
-                                            uint8_t *buff)
+                                             uint8_t *buff)
 {
   int32_t ret;
 
@@ -3476,7 +3559,7 @@ int32_t lis2dux12_fsm_number_of_programs_set(const stmdev_ctx_t *ctx,
   *
   */
 int32_t lis2dux12_fsm_number_of_programs_get(const stmdev_ctx_t *ctx,
-                                            uint8_t *buff)
+                                             uint8_t *buff)
 {
   int32_t ret;
 
@@ -3495,7 +3578,7 @@ int32_t lis2dux12_fsm_number_of_programs_get(const stmdev_ctx_t *ctx,
   *
   */
 int32_t lis2dux12_fsm_start_address_set(const stmdev_ctx_t *ctx,
-                                       uint16_t val)
+                                        uint16_t val)
 {
   uint8_t buff[2];
   int32_t ret;
@@ -3517,7 +3600,7 @@ int32_t lis2dux12_fsm_start_address_set(const stmdev_ctx_t *ctx,
   *
   */
 int32_t lis2dux12_fsm_start_address_get(const stmdev_ctx_t *ctx,
-                                       uint16_t *val)
+                                        uint16_t *val)
 {
   uint8_t buff[2];
   int32_t ret;
@@ -3564,7 +3647,7 @@ int32_t lis2dux12_mlc_set(const stmdev_ctx_t *ctx, lis2dux12_mlc_mode_t val)
     ret = lis2dux12_read_reg(ctx, LIS2DUX12_EMB_FUNC_EN_A, (uint8_t *)&emb_en_a, 1);
     ret += lis2dux12_read_reg(ctx, LIS2DUX12_EMB_FUNC_EN_B, (uint8_t *)&emb_en_b, 1);
 
-    switch(val)
+    switch (val)
     {
       case LIS2DUX12_MLC_OFF:
         emb_en_a.mlc_before_fsm_en = 0;
@@ -3644,10 +3727,10 @@ int32_t lis2dux12_mlc_get(const stmdev_ctx_t *ctx, lis2dux12_mlc_mode_t *val)
   *
   */
 int32_t lis2dux12_mlc_status_get(const stmdev_ctx_t *ctx,
-                                  lis2dux12_mlc_status_mainpage_t *val)
+                                 lis2dux12_mlc_status_mainpage_t *val)
 {
   return lis2dux12_read_reg(ctx, LIS2DUX12_MLC_STATUS_MAINPAGE,
-                             (uint8_t *) val, 1);
+                            (uint8_t *) val, 1);
 }
 
 /**
@@ -3682,7 +3765,7 @@ int32_t lis2dux12_mlc_out_get(const stmdev_ctx_t *ctx, uint8_t *buff)
   *
   */
 int32_t lis2dux12_mlc_data_rate_set(const stmdev_ctx_t *ctx,
-                                     lis2dux12_mlc_odr_val_t val)
+                                    lis2dux12_mlc_odr_val_t val)
 {
   lis2dux12_mlc_odr_t reg;
   int32_t ret;
@@ -3713,7 +3796,7 @@ int32_t lis2dux12_mlc_data_rate_set(const stmdev_ctx_t *ctx,
   *
   */
 int32_t lis2dux12_mlc_data_rate_get(const stmdev_ctx_t *ctx,
-                                     lis2dux12_mlc_odr_val_t *val)
+                                    lis2dux12_mlc_odr_val_t *val)
 {
   lis2dux12_mlc_odr_t reg;
   int32_t ret;
