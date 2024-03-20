@@ -112,7 +112,7 @@ This directory contains the LIS2DUX12 component drivers.
 
 </div>
 
-<input type="checkbox" id="collapse-section8" checked aria-hidden="true">
+<input type="checkbox" id="collapse-section8" aria-hidden="true">
 <label for="collapse-section8" aria-hidden="true">V1.2.0 / 27-Nov-2023</label>
 <div>
 
@@ -124,7 +124,19 @@ This directory contains the LIS2DUX12 component drivers.
 
 </div>
 
+<input type="checkbox" id="collapse-section9" checked aria-hidden="true">
+<label for="collapse-section9" aria-hidden="true">V2.0.0 / 20-Mar-2024</label>
+<div>
+
+## Main changes
+- Fixed code style (Artistic Style Version 3.4.13)
+- Add "const" to ctx arg for all APIs
+
+##
+
+</div>
 :::
+
 
 :::
 :::
