@@ -536,10 +536,10 @@ int32_t lis2dux12_mode_get(const stmdev_ctx_t *ctx, lis2dux12_md_t *val)
     case LIS2DUX12_800Hz_LP:
       val->odr = (ctrl3.hp_en == 0x1U) ? LIS2DUX12_800Hz_HP : LIS2DUX12_800Hz_LP;
       break;
-    case LIS2DUX12_TRIG_PIN:
+    case 0xe:
       val->odr = LIS2DUX12_TRIG_PIN;
       break;
-    case LIS2DUX12_TRIG_SW:
+    case 0xf:
       val->odr = LIS2DUX12_TRIG_SW;
       break;
     default:
