@@ -136,12 +136,23 @@ This directory contains the LIS2DUX12 component drivers.
 
 </div>
 
-<input type="checkbox" id="collapse-section10" checked aria-hidden="true">
+<input type="checkbox" id="collapse-section10" aria-hidden="true">
 <label for="collapse-section10" aria-hidden="true">V2.0.1 / 26-Mar-2024</label>
 <div>
 
 ## Main changes
 - updated README.md file with tag reference and mdelay description
+
+##
+
+</div>
+
+<input type="checkbox" id="collapse-section11" checked aria-hidden="true">
+<label for="collapse-section11" aria-hidden="true">V2.0.2 / 11-Apr-2024</label>
+<div>
+
+## Main changes
+- Fix lis2dux12_mode_get API
 
 ##
 
