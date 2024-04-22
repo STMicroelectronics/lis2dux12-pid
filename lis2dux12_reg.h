@@ -180,6 +180,18 @@ typedef struct
   *
   */
 
+#define LIS2DUX12_EXT_CLK_CFG                          0x08U
+typedef struct
+{
+#if DRV_BYTE_ORDER == DRV_LITTLE_ENDIAN
+  uint8_t not_used0                    : 7;
+  uint8_t ext_clk_en                   : 1;
+#elif DRV_BYTE_ORDER == DRV_BIG_ENDIAN
+  uint8_t ext_clk_en                   : 1;
+  uint8_t not_used0                    : 7;
+#endif /* DRV_BYTE_ORDER */
+} lis2dux12_ext_clk_cfg_t;
+
 #define LIS2DUX12_PIN_CTRL                             0x0CU
 typedef struct
 {
@@ -808,7 +820,7 @@ typedef struct
 #endif /* DRV_BYTE_ORDER */
 } lis2dux12_sleep_t;
 
-#define LIS2DUX12_IF_WAKE_UP                           0x3EU
+#define LIS2DUX12_EN_DEVICE_CONFIG                     0x3EU
 typedef struct
 {
 #if DRV_BYTE_ORDER == DRV_LITTLE_ENDIAN
@@ -818,7 +830,7 @@ typedef struct
   uint8_t not_used0                    : 7;
   uint8_t soft_pd                      : 1;
 #endif /* DRV_BYTE_ORDER */
-} lis2dux12_if_wake_up_t;
+} lis2dux12_en_device_config_t;
 
 #define LIS2DUX12_FUNC_CFG_ACCESS                      0x3FU
 typedef struct
@@ -1942,7 +1954,7 @@ typedef union
   lis2dux12_fsm_status_mainpage_t    fsm_status_mainpage;
   lis2dux12_mlc_status_mainpage_t    mlc_status_mainpage;
   lis2dux12_sleep_t    sleep;
-  lis2dux12_if_wake_up_t    if_wake_up;
+  lis2dux12_en_device_config_t    en_device_config;
   lis2dux12_func_cfg_access_t    func_cfg_access;
   lis2dux12_fifo_data_out_tag_t    fifo_data_out_tag;
   lis2dux12_fifo_data_out_x_l_t    fifo_data_out_x_l;

@@ -665,11 +665,11 @@ int32_t lis2dux12_enter_deep_power_down(const stmdev_ctx_t *ctx, uint8_t val)
   */
 int32_t lis2dux12_exit_deep_power_down(const stmdev_ctx_t *ctx)
 {
-  lis2dux12_if_wake_up_t if_wake_up = {0};
+  lis2dux12_en_device_config_t en_device_config = {0};
   int32_t ret;
 
-  if_wake_up.soft_pd = PROPERTY_ENABLE;
-  ret = lis2dux12_write_reg(ctx, LIS2DUX12_IF_WAKE_UP, (uint8_t *)&if_wake_up, 1);
+  en_device_config.soft_pd = PROPERTY_ENABLE;
+  ret = lis2dux12_write_reg(ctx, LIS2DUX12_EN_DEVICE_CONFIG, (uint8_t *)&en_device_config, 1);
 
   if (ctx->mdelay != NULL)
   {
@@ -1189,6 +1189,45 @@ int32_t lis2dux12_ln_pg_read(const stmdev_ctx_t *ctx, uint16_t address, uint8_t 
   * @{/
   *
   */
+
+/**
+  * @brief       External Clock Enable/Disable on INT pin.[set]
+  *
+  * @param  ctx  read / write interface definitions
+  * @param  val  0: disable ext_clk - 1: enable ext_clk
+  * @retval      interface status (MANDATORY: return 0 -> no Error)
+  *
+  */
+int32_t lis2dux12_ext_clk_en_set(const stmdev_ctx_t *ctx, uint8_t val)
+{
+  lis2dux12_ext_clk_cfg_t clk;
+  int32_t ret;
+
+  ret = lis2dux12_read_reg(ctx, LIS2DUX12_EXT_CLK_CFG, (uint8_t *)&clk, 1);
+  clk.ext_clk_en = val;
+  ret += lis2dux12_write_reg(ctx, LIS2DUX12_EXT_CLK_CFG, (uint8_t *)&clk, 1);
+
+  return ret;
+}
+
+/**
+  * @brief       External Clock Enable/Disable on INT pin.[get]
+  *
+  * @param  ctx  read / write interface definitions
+  * @param  val  0: disable ext_clk - 1: enable ext_clk
+  * @retval      interface status (MANDATORY: return 0 -> no Error)
+  *
+  */
+int32_t lis2dux12_ext_clk_en_get(const stmdev_ctx_t *ctx, uint8_t *val)
+{
+  lis2dux12_ext_clk_cfg_t clk;
+  int32_t ret;
+
+  ret = lis2dux12_read_reg(ctx, LIS2DUX12_EXT_CLK_CFG, (uint8_t *)&clk, 1);
+  *val = clk.ext_clk_en;
+
+  return ret;
+}
 
 /**
   * @brief       Electrical pin configuration.[set]
