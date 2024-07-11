@@ -2105,7 +2105,7 @@ int32_t lis2dux12_fifo_data_get(const stmdev_ctx_t *ctx, const lis2dux12_md_t *m
         data->xl[0].raw[1] = (int16_t)fifo_raw[1] / 16;
         data->xl[0].raw[1] = (data->xl[0].raw[1] + ((int16_t)fifo_raw[2] * 16)) * 16;
         data->xl[0].raw[2] = (int16_t)fifo_raw[3];
-        data->xl[0].raw[2] = data->xl[0].raw[2] + ((int16_t)fifo_raw[4] * 256) * 16;
+        data->xl[0].raw[2] = (data->xl[0].raw[2] + (int16_t)fifo_raw[4] * 256) * 16;
         data->heat.raw = (int16_t)fifo_raw[4] / 16;
         data->heat.raw = (data->heat.raw + ((int16_t)fifo_raw[5] * 16)) * 16;
         data->heat.deg_c = lis2dux12_from_lsb_to_celsius(data->heat.raw);
