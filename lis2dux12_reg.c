@@ -395,13 +395,13 @@ int32_t lis2dux12_mode_set(const stmdev_ctx_t *ctx, const lis2dux12_md_t *val)
       switch (val->bw)
       {
         default:
+        case LIS2DUX12_ODR_div_2:
         case LIS2DUX12_ODR_div_4:
         case LIS2DUX12_ODR_div_8:
-        case LIS2DUX12_ODR_div_16:
           /* value not allowed */
           ret = -1;
           break;
-        case LIS2DUX12_ODR_div_2:
+        case LIS2DUX12_ODR_div_16:
           ctrl5.bw = 0x3;
           break;
       }
@@ -410,15 +410,15 @@ int32_t lis2dux12_mode_set(const stmdev_ctx_t *ctx, const lis2dux12_md_t *val)
       switch (val->bw)
       {
         default:
-        case LIS2DUX12_ODR_div_8:
-        case LIS2DUX12_ODR_div_16:
+        case LIS2DUX12_ODR_div_2:
+        case LIS2DUX12_ODR_div_4:
           /* value not allowed */
           ret = -1;
           break;
-        case LIS2DUX12_ODR_div_2:
+        case LIS2DUX12_ODR_div_8:
           ctrl5.bw = 0x2;
           break;
-        case LIS2DUX12_ODR_div_4:
+        case LIS2DUX12_ODR_div_16:
           ctrl5.bw = 0x3;
           break;
       }
@@ -427,17 +427,17 @@ int32_t lis2dux12_mode_set(const stmdev_ctx_t *ctx, const lis2dux12_md_t *val)
       switch (val->bw)
       {
         default:
-        case LIS2DUX12_ODR_div_16:
+        case LIS2DUX12_ODR_div_2:
           /* value not allowed */
           ret = -1;
           break;
-        case LIS2DUX12_ODR_div_2:
+        case LIS2DUX12_ODR_div_4:
           ctrl5.bw = 0x1;
           break;
-        case LIS2DUX12_ODR_div_4:
+        case LIS2DUX12_ODR_div_8:
           ctrl5.bw = 0x2;
           break;
-        case LIS2DUX12_ODR_div_8:
+        case LIS2DUX12_ODR_div_16:
           ctrl5.bw = 0x3;
           break;
       }
