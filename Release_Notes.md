@@ -169,12 +169,27 @@ This directory contains the LIS2DUX12 component drivers.
 
 </div>
 
-<input type="checkbox" id="collapse-section13" checked aria-hidden="true">
+<input type="checkbox" id="collapse-section13" aria-hidden="true">
 <label for="collapse-section13" aria-hidden="true">V2.2.0 / 17-May-2024</label>
 <div>
 
 ## Main changes
 - fix some MISRA errors found with coverity
+
+##
+
+</div>
+
+<input type="checkbox" id="collapse-section14" checked aria-hidden="true">
+<label for="collapse-section14" aria-hidden="true">V2.2.1 / 25-Sept-2024</label>
+<div>
+
+## Main changes
+- Fix multiple byte read in ln_pg_read() API
+- (FIX) Return 6Hz_HP or 6_Hz_LP in mode_get API
+- Fix BW setting in mode_set API
+- Fix FIFO data get API
+- Fixed few typos
 
 ##
 
