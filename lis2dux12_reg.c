@@ -2113,8 +2113,8 @@ int32_t lis2dux12_fifo_data_get(const stmdev_ctx_t *ctx, const lis2dux12_md_t *m
       ret = lis2dux12_fifo_out_raw_get(ctx, fifo_raw);
       for (i = 0; i < 3; i++)
       {
-        data->xl[0].raw[i] = (int16_t)fifo_raw[i] * 256;
-        data->xl[1].raw[i] = (int16_t)fifo_raw[3 + i] * 256;
+        data->xl[0].raw[i] = (int16_t)fifo_raw[i * 2] * 256;
+        data->xl[1].raw[i] = (int16_t)fifo_raw[i * 2 + 1] * 256;
       }
       break;
     case 0x2:
@@ -2136,8 +2136,8 @@ int32_t lis2dux12_fifo_data_get(const stmdev_ctx_t *ctx, const lis2dux12_md_t *m
       {
         /* A FIFO sample consists of 16-bits 3-axis XL at ODR  */
         data->xl[0].raw[0] = (int16_t)fifo_raw[0] + (int16_t)fifo_raw[1] * 256;
-        data->xl[0].raw[1] = (int16_t)fifo_raw[1] + (int16_t)fifo_raw[3] * 256;
-        data->xl[0].raw[2] = (int16_t)fifo_raw[2] + (int16_t)fifo_raw[5] * 256;
+        data->xl[0].raw[1] = (int16_t)fifo_raw[2] + (int16_t)fifo_raw[3] * 256;
+        data->xl[0].raw[2] = (int16_t)fifo_raw[4] + (int16_t)fifo_raw[5] * 256;
       }
       break;
     case 0x4:
