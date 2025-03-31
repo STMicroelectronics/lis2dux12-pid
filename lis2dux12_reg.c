@@ -681,6 +681,43 @@ int32_t lis2dux12_exit_deep_power_down(const stmdev_ctx_t *ctx)
 }
 
 /**
+  * @brief  Disable hard-reset from CS.[set]
+  *
+  * @param  ctx   communication interface handler.(ptr)
+  * @param  md    0: enable hard-reset from CS, 1: disable hard-reset from CS
+  * @retval       interface status (MANDATORY: return 0 -> no Error)
+  */
+int32_t lis2dux12_disable_hard_reset_from_cs_set(const stmdev_ctx_t *ctx, uint8_t val)
+{
+  lis2dux12_fifo_ctrl_t fifo_ctrl;
+  int32_t ret;
+
+  ret = lis2dux12_read_reg(ctx, LIS2DUX12_FIFO_CTRL, (uint8_t *)&fifo_ctrl, 1);
+  fifo_ctrl.dis_hard_rst_cs = (val == 1) ? PROPERTY_ENABLE : PROPERTY_DISABLE;
+  ret += lis2dux12_write_reg(ctx, LIS2DUX12_FIFO_CTRL, (uint8_t *)&fifo_ctrl, 1);
+
+  return ret;
+}
+
+/**
+  * @brief  Disable hard-reset from CS.[get]
+  *
+  * @param  ctx   communication interface handler.(ptr)
+  * @param  md    0: enable hard-reset from CS, 1: disable hard-reset from CS
+  * @retval       interface status (MANDATORY: return 0 -> no Error)
+  */
+int32_t lis2dux12_disable_hard_reset_from_cs_get(const stmdev_ctx_t *ctx, uint8_t *val)
+{
+  lis2dux12_fifo_ctrl_t fifo_ctrl;
+  int32_t ret;
+
+  ret = lis2dux12_read_reg(ctx, LIS2DUX12_FIFO_CTRL, (uint8_t *)&fifo_ctrl, 1);
+  *val = fifo_ctrl.dis_hard_rst_cs;
+
+  return ret;
+}
+
+/**
   * @brief  Software trigger for One-Shot.[get]
   *
   * @param  ctx   communication interface handler.(ptr)

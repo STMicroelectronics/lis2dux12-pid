@@ -350,13 +350,15 @@ typedef struct
 #if DRV_BYTE_ORDER == DRV_LITTLE_ENDIAN
   uint8_t fifo_mode                    : 3;
   uint8_t stop_on_fth                  : 1;
-  uint8_t not_used0                    : 2;
+  uint8_t not_used0                    : 1;
+  uint8_t dis_hard_rst_cs              : 1;
   uint8_t fifo_depth                   : 1;
   uint8_t cfg_chg_en                   : 1;
 #elif DRV_BYTE_ORDER == DRV_BIG_ENDIAN
   uint8_t cfg_chg_en                   : 1;
   uint8_t fifo_depth                   : 1;
-  uint8_t not_used0                    : 2;
+  uint8_t dis_hard_rst_cs              : 1;
+  uint8_t not_used0                    : 1;
   uint8_t stop_on_fth                  : 1;
   uint8_t fifo_mode                    : 3;
 #endif /* DRV_BYTE_ORDER */
@@ -2227,6 +2229,9 @@ int32_t lis2dux12_self_test_stop(const stmdev_ctx_t *ctx);
 
 int32_t lis2dux12_enter_deep_power_down(const stmdev_ctx_t *ctx, uint8_t val);
 int32_t lis2dux12_exit_deep_power_down(const stmdev_ctx_t *ctx);
+
+int32_t lis2dux12_disable_hard_reset_from_cs_set(const stmdev_ctx_t *ctx, uint8_t val);
+int32_t lis2dux12_disable_hard_reset_from_cs_get(const stmdev_ctx_t *ctx, uint8_t *val);
 
 typedef enum
 {
