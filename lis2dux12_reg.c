@@ -3254,9 +3254,6 @@ int32_t lis2dux12_emb_fsm_en_get(const stmdev_ctx_t *ctx, uint8_t *val)
                              (uint8_t *)&emb_func_en_b, 1);
 
     *val = emb_func_en_b.fsm_en;
-
-    ret += lis2dux12_write_reg(ctx, LIS2DUX12_EMB_FUNC_EN_B,
-                               (uint8_t *)&emb_func_en_b, 1);
   }
 
   ret += lis2dux12_mem_bank_set(ctx, LIS2DUX12_MAIN_MEM_BANK);
