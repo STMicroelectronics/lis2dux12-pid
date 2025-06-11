@@ -2093,7 +2093,6 @@ typedef struct
   uint8_t sw_reset                     : 1; /* Restoring configuration registers */
   uint8_t boot                         : 1; /* Restoring calibration parameters */
   uint8_t drdy                         : 1; /* Accelerometer data ready */
-  uint8_t power_down                   : 1; /* Monitors power-down. */
 } lis2dux12_status_t;
 int32_t lis2dux12_status_get(const stmdev_ctx_t *ctx, lis2dux12_status_t *val);
 
@@ -2172,7 +2171,6 @@ int32_t lis2dux12_trigger_sw(const stmdev_ctx_t *ctx, const lis2dux12_md_t *md);
 typedef struct
 {
   uint8_t drdy                         : 1;
-  uint8_t timestamp                    : 1;
   uint8_t free_fall                    : 1;
   uint8_t wake_up                      : 1;
   uint8_t wake_up_z                    : 1;
@@ -2190,11 +2188,6 @@ typedef struct
   uint8_t six_d_zh                     : 1;
   uint8_t sleep_change                 : 1;
   uint8_t sleep_state                  : 1;
-  uint8_t tilt                         : 1;
-  uint8_t fifo_bdr                     : 1;
-  uint8_t fifo_full                    : 1;
-  uint8_t fifo_ovr                     : 1;
-  uint8_t fifo_th                      : 1;
 } lis2dux12_all_sources_t;
 int32_t lis2dux12_all_sources_get(const stmdev_ctx_t *ctx, lis2dux12_all_sources_t *val);
 
