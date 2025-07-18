@@ -1699,8 +1699,8 @@ int32_t lis2dux12_pin_int2_route_get(const stmdev_ctx_t *ctx, lis2dux12_pin_int_
   lis2dux12_md2_cfg_t md2_cfg;
   int32_t ret;
 
-  ret = lis2dux12_read_reg(ctx, LIS2DUX12_CTRL2, (uint8_t *)&ctrl3, 1);
-  ret += lis2dux12_read_reg(ctx, LIS2DUX12_MD1_CFG, (uint8_t *)&md2_cfg, 1);
+  ret = lis2dux12_read_reg(ctx, LIS2DUX12_CTRL3, (uint8_t *)&ctrl3, 1);
+  ret += lis2dux12_read_reg(ctx, LIS2DUX12_MD2_CFG, (uint8_t *)&md2_cfg, 1);
 
   if (ret == 0)
   {
