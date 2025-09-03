@@ -2301,17 +2301,20 @@ int32_t lis2dux12_stpcnt_mode_set(const stmdev_ctx_t *ctx, lis2dux12_stpcnt_mode
 int32_t lis2dux12_stpcnt_mode_get(const stmdev_ctx_t *ctx, lis2dux12_stpcnt_mode_t *val)
 {
   lis2dux12_emb_func_en_a_t emb_func_en_a;
+  lis2dux12_emb_func_fifo_en_t emb_func_fifo_en;
   lis2dux12_pedo_cmd_reg_t pedo_cmd_reg;
   int32_t ret;
 
   ret = lis2dux12_mem_bank_set(ctx, LIS2DUX12_EMBED_FUNC_MEM_BANK);
   ret += lis2dux12_read_reg(ctx, LIS2DUX12_EMB_FUNC_EN_A, (uint8_t *)&emb_func_en_a, 1);
+  ret += lis2dux12_read_reg(ctx, LIS2DUX12_EMB_FUNC_FIFO_EN, (uint8_t *)&emb_func_fifo_en, 1);
   ret += lis2dux12_mem_bank_set(ctx, LIS2DUX12_MAIN_MEM_BANK);
 
   ret += lis2dux12_ln_pg_read(ctx, LIS2DUX12_EMB_ADV_PG_0 + LIS2DUX12_PEDO_CMD_REG,
                               (uint8_t *)&pedo_cmd_reg, 1);
   val->false_step_rej = pedo_cmd_reg.fp_rejection_en;
   val->step_counter_enable = emb_func_en_a.pedo_en;
+  val->step_counter_in_fifo = emb_func_fifo_en.step_counter_fifo_en;
 
   return ret;
 }
