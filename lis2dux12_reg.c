@@ -143,19 +143,16 @@ int32_t lis2dux12_device_id_get(const stmdev_ctx_t *ctx, uint8_t *val)
 }
 
 /**
-  * @brief  Configures the bus operating mode.[get]
+  * @brief  Initialize the device with optimal settings.
   *
   * @param  ctx   communication interface handler.(ptr)
-  * @param  val   configures the bus operating mode.(ptr)
   * @retval       interface status (MANDATORY: return 0 -> no Error)
   *
   */
-int32_t lis2dux12_init_set(const stmdev_ctx_t *ctx, lis2dux12_init_t val)
+int32_t lis2dux12_init_set(const stmdev_ctx_t *ctx)
 {
   lis2dux12_ctrl1_t ctrl1;
   lis2dux12_ctrl4_t ctrl4;
-  lis2dux12_status_t status;
-  uint8_t cnt = 0;
   int32_t ret = 0;
 
   ret += lis2dux12_read_reg(ctx, LIS2DUX12_CTRL1, (uint8_t *)&ctrl1, 1);
@@ -164,95 +161,171 @@ int32_t lis2dux12_init_set(const stmdev_ctx_t *ctx, lis2dux12_init_t val)
   {
     return ret;
   }
-  switch (val)
+
+  ctrl4.bdu = PROPERTY_ENABLE;
+  ctrl1.if_add_inc = PROPERTY_ENABLE;
+
+  ret += lis2dux12_write_reg(ctx, LIS2DUX12_CTRL4, (uint8_t *)&ctrl4, 1);
+  ret += lis2dux12_write_reg(ctx, LIS2DUX12_CTRL1, (uint8_t *)&ctrl1, 1);
+
+  return ret;
+}
+
+/**
+  * @brief Enables embedded functions
+  *
+  * @param  ctx      read / write interface definitions
+  * @param  state    enables / disables embedded functions
+  * @retval          0: reboot has been performed, -1: error
+  *
+  */
+int32_t lis2dux12_embedded_state_set(const stmdev_ctx_t *ctx, uint8_t state)
+{
+  int32_t ret;
+  lis2dux12_ctrl4_t ctrl4;
+
+  ret = lis2dux12_read_reg(ctx, LIS2DUX12_CTRL4, (uint8_t *)&ctrl4, 1);
+
+  if (ret != 0)
   {
-    case LIS2DUX12_BOOT:
-      ctrl4.boot = PROPERTY_ENABLE;
-      ret += lis2dux12_write_reg(ctx, LIS2DUX12_CTRL4, (uint8_t *)&ctrl4, 1);
-      if (ret != 0)
-      {
-        break;
-      }
-
-      do
-      {
-        ret = lis2dux12_read_reg(ctx, LIS2DUX12_CTRL4, (uint8_t *)&ctrl4, 1);
-        if (ret != 0)
-        {
-          break;
-        }
-
-        /* boot procedure ended correctly */
-        if (ctrl4.boot == 0U)
-        {
-          break;
-        }
-
-        if (ctx->mdelay != NULL)
-        {
-          ctx->mdelay(25); /* 25 ms of boot time */
-        }
-      } while (cnt++ < 5U);
-
-      if (cnt >= 5U)
-      {
-        ret = -1;  /* boot procedure failed */
-      }
-      break;
-    case LIS2DUX12_RESET:
-      ctrl1.sw_reset = PROPERTY_ENABLE;
-      ret += lis2dux12_write_reg(ctx, LIS2DUX12_CTRL1, (uint8_t *)&ctrl1, 1);
-      if (ret != 0)
-      {
-        break;
-      }
-
-      do
-      {
-        if (ctx->mdelay != NULL)
-        {
-          ctx->mdelay(1); /* should be 50 us */
-        }
-
-        ret = lis2dux12_status_get(ctx, &status);
-        if (ret != 0)
-        {
-          break;
-        }
-
-        /* sw-reset procedure ended correctly */
-        if (status.sw_reset == 0U)
-        {
-          break;
-        }
-      } while (cnt++ < 5U);
-
-      if (cnt >= 5U)
-      {
-        ret = -1;  /* sw-reset procedure failed */
-      }
-      break;
-    case LIS2DUX12_SENSOR_ONLY_ON:
-      /* no embedded funcs are used */
-      ctrl4.emb_func_en = PROPERTY_DISABLE;
-      ctrl4.bdu = PROPERTY_ENABLE;
-      ctrl1.if_add_inc = PROPERTY_ENABLE;
-      ret += lis2dux12_write_reg(ctx, LIS2DUX12_CTRL4, (uint8_t *)&ctrl4, 1);
-      ret += lis2dux12_write_reg(ctx, LIS2DUX12_CTRL1, (uint8_t *)&ctrl1, 1);
-      break;
-    case LIS2DUX12_SENSOR_EMB_FUNC_ON:
-      /* complete configuration is used */
-      ctrl4.emb_func_en = PROPERTY_ENABLE;
-      ctrl4.bdu = PROPERTY_ENABLE;
-      ctrl1.if_add_inc = PROPERTY_ENABLE;
-      ret += lis2dux12_write_reg(ctx, LIS2DUX12_CTRL4, (uint8_t *)&ctrl4, 1);
-      ret += lis2dux12_write_reg(ctx, LIS2DUX12_CTRL1, (uint8_t *)&ctrl1, 1);
-      break;
-    default:
-      ctrl1.sw_reset = PROPERTY_ENABLE;
-      ret += lis2dux12_write_reg(ctx, LIS2DUX12_CTRL1, (uint8_t *)&ctrl1, 1);
-      break;
+    goto exit;
   }
+
+  ctrl4.emb_func_en = state;
+
+  ret += lis2dux12_write_reg(ctx, LIS2DUX12_CTRL4, (uint8_t *)&ctrl4, 1);
+
+
+exit:
+  return ret;
+}
+
+
+/**
+  * @brief Perform device reboot (boot time: 25 ms)
+  *
+  * @param  ctx      read / write interface definitions
+  * @retval          0: reboot has been performed, -1: error
+  *
+  */
+int32_t lis2dux12_reboot(const stmdev_ctx_t *ctx)
+{
+  lis2dux12_ctrl4_t ctrl4;
+  uint8_t cnt = 0;
+  int32_t ret;
+
+  ret = lis2dux12_read_reg(ctx, LIS2DUX12_CTRL4, (uint8_t *)&ctrl4, 1);
+  if (ret != 0)
+  {
+    goto exit;
+  }
+
+  ctrl4.boot = PROPERTY_ENABLE;
+  ret = lis2dux12_write_reg(ctx, LIS2DUX12_CTRL4, (uint8_t *)&ctrl4, 1);
+  if (ret != 0)
+  {
+    goto exit;
+  }
+
+  do
+  {
+    if (ctx->mdelay != NULL)
+    {
+      ctx->mdelay(25); /* 25 ms of boot time */
+    }
+
+    ret = lis2dux12_read_reg(ctx, LIS2DUX12_CTRL4, (uint8_t *)&ctrl4, 1);
+    if (ret != 0)
+    {
+      break;
+    }
+
+    /* boot procedure ended correctly */
+    if (ctrl4.boot == 0U)
+    {
+      break;
+    }
+
+
+  } while (cnt++ < 5U);
+
+  if (cnt >= 5U)
+  {
+    ret = -1;  /* boot procedure failed */
+  }
+
+exit:
+  return ret;
+}
+
+/**
+  * @brief Global reset of the device: power-on reset.
+  *
+  * @param  ctx      read / write interface definitions
+  * @retval          interface status (MANDATORY: return 0 -> no Error)
+  *
+  */
+int32_t lis2dux12_sw_por(const stmdev_ctx_t *ctx)
+{
+  int32_t ret;
+
+  ret = lis2dux12_enter_deep_power_down(ctx, 1);
+
+  if (ret == 0)
+  {
+    ret = lis2dux12_exit_deep_power_down(ctx);
+  }
+
+  return ret;
+}
+
+/**
+  * @brief Software reset: resets configuration registers.
+  *
+  * @param  ctx      read / write interface definitions
+  * @retval          interface status (MANDATORY: return 0 -> no Error)
+  *
+  */
+int32_t lis2dux12_sw_reset(const stmdev_ctx_t *ctx)
+{
+  lis2dux12_ctrl1_t ctrl1 = {0};
+  uint8_t cnt = 0;
+  int32_t ret;
+
+  ctrl1.sw_reset = PROPERTY_ENABLE;
+
+  ret = lis2dux12_write_reg(ctx, LIS2DUX12_CTRL1, (uint8_t *)&ctrl1, 1);
+  if (ret != 0)
+  {
+    goto exit;
+  }
+
+  do
+  {
+    if (ctx->mdelay != NULL)
+    {
+      ctx->mdelay(1); /* should be 50 us */
+    }
+
+    ret = lis2dux12_read_reg(ctx, LIS2DUX12_CTRL1, (uint8_t *)&ctrl1, 1);
+    if (ret != 0)
+    {
+      break;
+    }
+
+    /* sw-reset procedure ended correctly */
+    if (ctrl1.sw_reset == 0U)
+    {
+      break;
+    }
+  } while (cnt++ < 5U);
+
+  if (cnt >= 5U)
+  {
+    ret = -1;  /* sw-reset procedure failed */
+  }
+
+exit:
   return ret;
 }
 
