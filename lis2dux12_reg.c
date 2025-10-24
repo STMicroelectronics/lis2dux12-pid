@@ -1249,6 +1249,91 @@ exit:
 }
 
 /**
+  * @brief  FSM capability to write CTRl regs.[set]
+  *
+  * @param  ctx      read / write interface definitions
+  * @param  val      0: FSM cannot write CTRL regs, 1: FSM can write CTRL regs
+  * @retval          interface status (MANDATORY: return 0 -> no Error)
+  *
+  */
+int32_t lis2dux12_fsm_wr_ctrl_en_set(const stmdev_ctx_t *ctx, uint8_t val)
+{
+  lis2dux12_func_cfg_access_t func_cfg_access;
+  int32_t ret = 0;
+
+  if (ctx->priv_data == NULL)
+  {
+    ret = -1;
+    goto exit;
+  }
+
+  /* init from saved register */
+  func_cfg_access = ((lis2dux12_priv_t *)ctx->priv_data)->func_cfg_access_main;
+
+  if (func_cfg_access.emb_func_reg_access == 0)
+  {
+    /* MAIN page */
+    ret = lis2dux12_read_reg(ctx, LIS2DUX12_FUNC_CFG_ACCESS, (uint8_t *)&func_cfg_access, 1);
+  }
+
+  if (ret == 0)
+  {
+    func_cfg_access.fsm_wr_ctrl_en = ((uint8_t)val & 0x1U);
+    ret = lis2dux12_write_reg(ctx, LIS2DUX12_FUNC_CFG_ACCESS, (uint8_t *)&func_cfg_access, 1);
+
+    if (ret == 0)
+    {
+      /* save register in private data */
+      ((lis2dux12_priv_t *)ctx->priv_data)->func_cfg_access_main = func_cfg_access;
+    }
+  }
+
+exit:
+  return ret;
+}
+
+/**
+  * @brief  FSM capability to write CTRl regs.[get]
+  *
+  * @param  ctx      read / write interface definitions
+  * @param  val      0: FSM cannot write CTRL regs, 1: FSM can write CTRL regs
+  * @retval          interface status (MANDATORY: return 0 -> no Error)
+  *
+  */
+int32_t lis2dux12_fsm_wr_ctrl_en_get(const stmdev_ctx_t *ctx, uint8_t *val)
+{
+  lis2dux12_func_cfg_access_t func_cfg_access;
+  int32_t ret = 0;
+
+  if (ctx->priv_data == NULL)
+  {
+    ret = -1;
+    goto exit;
+  }
+
+  /* init from saved register */
+  func_cfg_access = ((lis2dux12_priv_t *)ctx->priv_data)->func_cfg_access_main;
+
+  if (func_cfg_access.emb_func_reg_access == 0)
+  {
+    /* MAIN page */
+    ret = lis2dux12_read_reg(ctx, LIS2DUX12_FUNC_CFG_ACCESS, (uint8_t *)&func_cfg_access, 1);
+    if (ret != 0)
+    {
+      goto exit;
+    }
+
+    /* save register in private data */
+    ((lis2dux12_priv_t *)ctx->priv_data)->func_cfg_access_main = func_cfg_access;
+  }
+
+  *val = func_cfg_access.fsm_wr_ctrl_en;
+
+exit:
+  return ret;
+}
+
+/**
   * @brief  Write buffer in a page.
   *
   * @param  ctx      read / write interface definitions

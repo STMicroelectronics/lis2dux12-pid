@@ -2255,6 +2255,9 @@ typedef enum
 int32_t lis2dux12_mem_bank_set(const stmdev_ctx_t *ctx, lis2dux12_mem_bank_t val);
 int32_t lis2dux12_mem_bank_get(const stmdev_ctx_t *ctx, lis2dux12_mem_bank_t *val);
 
+int32_t lis2dux12_fsm_wr_ctrl_en_set(const stmdev_ctx_t *ctx, uint8_t val);
+int32_t lis2dux12_fsm_wr_ctrl_en_get(const stmdev_ctx_t *ctx, uint8_t *val);
+
 int32_t lis2dux12_ln_pg_write(const stmdev_ctx_t *ctx, uint16_t address, uint8_t *buf, uint8_t len);
 int32_t lis2dux12_ln_pg_read(const stmdev_ctx_t *ctx, uint16_t address, uint8_t *buf, uint8_t len);
 
