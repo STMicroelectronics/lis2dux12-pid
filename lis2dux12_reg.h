@@ -2242,6 +2242,11 @@ typedef struct
 int32_t lis2dux12_i3c_configure_set(const stmdev_ctx_t *ctx, const lis2dux12_i3c_cfg_t *val);
 int32_t lis2dux12_i3c_configure_get(const stmdev_ctx_t *ctx, lis2dux12_i3c_cfg_t *val);
 
+typedef struct
+{
+  lis2dux12_func_cfg_access_t func_cfg_access_main;
+} lis2dux12_priv_t;
+
 typedef enum
 {
   LIS2DUX12_MAIN_MEM_BANK       = 0x0,
