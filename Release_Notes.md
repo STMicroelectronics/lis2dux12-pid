@@ -268,7 +268,7 @@ This directory contains the LIS2DUX12 component drivers.
 
 </div>
 
-<input type="checkbox" id="collapse-section20" checked aria-hidden="true">
+<input type="checkbox" id="collapse-section20" aria-hidden="true">
 <label for="collapse-section20" aria-hidden="true">V4.0.0 / 05-Nov-2025</label>
 <div>
 
@@ -279,6 +279,18 @@ This directory contains the LIS2DUX12 component drivers.
 - fix ln_pg_read_read/write (clean pg_read bit)
 - Add `sw_reset`, `sw_por`, `reboot`, and `embedded_state_set` APIs
 - Fix stpcnt_rst_step_set() API
+
+##
+
+</div>
+
+<input type="checkbox" id="collapse-section21" checked aria-hidden="true">
+<label for="collapse-section21" aria-hidden="true">V4.0.1 / 19-Nov-2025</label>
+<div>
+
+## Main changes
+
+- (Fix) init 'ret' variable in mem_bank_get() API
 
 ##
 
