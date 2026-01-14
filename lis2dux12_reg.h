@@ -2573,13 +2573,13 @@ int32_t lis2dux12_sixd_config_get(const stmdev_ctx_t *ctx, lis2dux12_sixd_config
 
 typedef enum
 {
-  LIS2DUX12_0_ODR  = 0x000, /* 0 ODR time */
-  LIS2DUX12_1_ODR  = 0x001, /* 1 ODR time */
-  LIS2DUX12_2_ODR  = 0x002, /* 2 ODR time */
-  LIS2DUX12_3_ODR  = 0x100, /* 3 ODR time */
-  LIS2DUX12_7_ODR  = 0x101, /* 7 ODR time */
-  LIS2DUX12_11_ODR = 0x102, /* 11 ODR time */
-  LIS2DUX12_15_ODR = 0x103, /* 15 ODR time */
+  LIS2DUX12_0_ODR  = 0x00, /* 0 ODR time */
+  LIS2DUX12_1_ODR  = 0x01, /* 1 ODR time */
+  LIS2DUX12_2_ODR  = 0x02, /* 2 ODR time */
+  LIS2DUX12_3_ODR  = 0x10, /* 3 ODR time */
+  LIS2DUX12_7_ODR  = 0x11, /* 7 ODR time */
+  LIS2DUX12_11_ODR = 0x12, /* 11 ODR time */
+  LIS2DUX12_15_ODR = 0x13, /* 15 ODR time */
 } lis2dux12_wake_dur_t;
 
 typedef enum

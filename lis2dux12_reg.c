@@ -3400,7 +3400,7 @@ int32_t lis2dux12_wakeup_config_set(const stmdev_ctx_t *ctx, lis2dux12_wakeup_co
   if (ret == 0)
   {
     wup_dur.wake_dur = (uint8_t)val.wake_dur & 0x3U;
-    wup_dur_ext.wu_dur_extended = (uint8_t)val.wake_dur >> 2;
+    wup_dur_ext.wu_dur_extended = (uint8_t)val.wake_dur >> 4;
     wup_dur.sleep_dur = val.sleep_dur;
 
     int_cfg.wake_ths_w = val.wake_ths_weight;
@@ -3453,7 +3453,7 @@ int32_t lis2dux12_wakeup_config_get(const stmdev_ctx_t *ctx, lis2dux12_wakeup_co
   ret += lis2dux12_read_reg(ctx, LIS2DUX12_WAKE_UP_DUR, (uint8_t *)&wup_dur, 1);
   ret += lis2dux12_read_reg(ctx, LIS2DUX12_WAKE_UP_DUR_EXT, (uint8_t *)&wup_dur_ext, 1);
   ret += lis2dux12_read_reg(ctx, LIS2DUX12_INTERRUPT_CFG, (uint8_t *)&int_cfg, 1);
-  ret += lis2dux12_write_reg(ctx, LIS2DUX12_CTRL4, (uint8_t *)&ctrl4, 1);
+  ret += lis2dux12_read_reg(ctx, LIS2DUX12_CTRL4, (uint8_t *)&ctrl4, 1);
 
   if (ret == 0)
   {
