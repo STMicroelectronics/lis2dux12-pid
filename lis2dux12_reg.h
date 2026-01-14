@@ -2519,8 +2519,8 @@ int32_t lis2dux12_stpcnt_period_get(const stmdev_ctx_t *ctx, uint16_t *val);
 typedef struct
 {
   uint8_t enable                       : 1;
-  uint8_t window                       : 1;
-  uint8_t duration                     : 1;
+  uint8_t window                       : 4;
+  uint8_t duration                     : 4;
 } lis2dux12_smart_power_cfg_t;
 int32_t lis2dux12_smart_power_set(const stmdev_ctx_t *ctx, lis2dux12_smart_power_cfg_t val);
 int32_t lis2dux12_smart_power_get(const stmdev_ctx_t *ctx, lis2dux12_smart_power_cfg_t *val);
