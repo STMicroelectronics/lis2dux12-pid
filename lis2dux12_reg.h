@@ -739,11 +739,11 @@ typedef struct
   uint8_t bus_act_sel                  : 2;
   uint8_t not_used0                    : 3;
   uint8_t asf_on                       : 1;
-  uint8_t dis_drstdaa                  : 1;
   uint8_t not_used1                    : 1;
+  uint8_t dis_drstdaa                  : 1;
 #elif DRV_BYTE_ORDER == DRV_BIG_ENDIAN
-  uint8_t not_used1                    : 1;
   uint8_t dis_drstdaa                  : 1;
+  uint8_t not_used1                    : 1;
   uint8_t asf_on                       : 1;
   uint8_t not_used0                    : 3;
   uint8_t bus_act_sel                  : 2;
