@@ -284,13 +284,28 @@ This directory contains the LIS2DUX12 component drivers.
 
 </div>
 
-<input type="checkbox" id="collapse-section21" checked aria-hidden="true">
+<input type="checkbox" id="collapse-section21" aria-hidden="true">
 <label for="collapse-section21" aria-hidden="true">V4.0.1 / 19-Nov-2025</label>
 <div>
 
 ## Main changes
 
 - (Fix) init 'ret' variable in mem_bank_get() API
+
+##
+
+</div>
+
+<input type="checkbox" id="collapse-section22" checked aria-hidden="true">
+<label for="collapse-section22" aria-hidden="true">V5.0.0 / 15-Jan-2026</label>
+<div>
+
+## Main changes
+
+- Fix wake_dur_t enum definition and its usage in wakeup_config_set/get
+- Fix smart_power_cfg_t bitfield size
+- Fix i3c_if_ctrl bit order and i3c_configure_get API
+- Split pin_int struct into pin_int1 and pin_int2
 
 ##
 
