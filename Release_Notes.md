@@ -30,239 +30,27 @@ This directory contains the LIS2DUX12 component drivers.
 # Update history
 
 ::: {.collapse}
-<input type="checkbox" id="collapse-section1" aria-hidden="true">
-<label for="collapse-section1" aria-hidden="true">V1.0.0 / 14-November-2022</label>
+<input type="checkbox" id="collapse-section22" checked aria-hidden="true">
+<label for="collapse-section22" aria-hidden="true">V5.0.0 / 15-Jan-2026</label>
 <div>
 
 ## Main changes
 
-### First release
-
-- First official release [ref. DS v2.0]
+- Fix wake_dur_t enum definition and its usage in wakeup_config_set/get
+- Fix smart_power_cfg_t bitfield size
+- Fix i3c_if_ctrl bit order and i3c_configure_get API
+- Split pin_int struct into pin_int1 and pin_int2
 
 ##
 
 </div>
-
-<input type="checkbox" id="collapse-section2" aria-hidden="true">
-<label for="collapse-section2" aria-hidden="true">V1.0.1 / 07-April-2023</label>
-<div>
-
-## Main changes
-- fix defines for low power ODRs
-- Fix BW setting for LP mode with ODR < 50 Hz
-
-
-##
-
-</div>
-
-<input type="checkbox" id="collapse-section3" aria-hidden="true">
-<label for="collapse-section3" aria-hidden="true">V1.1.0 / 01-June-2023</label>
-<div>
-
-## Main changes
-- lis2dux12_reg.c(h): Fix struct and enum names
-
-##
-
-</div>
-
-<input type="checkbox" id="collapse-section4" aria-hidden="true">
-<label for="collapse-section4" aria-hidden="true">V1.1.1 / 21-June-2023</label>
-<div>
-
-## Main changes
-- Fix a typo in pin_int2_route_set
-
-##
-
-</div>
-
-<input type="checkbox" id="collapse-section5" aria-hidden="true">
-<label for="collapse-section5" aria-hidden="true">V1.1.2 / 28-June-2023</label>
-<div>
-
-## Main changes
-- Fix typos in ODR define names
-
-##
-
-</div>
-
-<input type="checkbox" id="collapse-section6" aria-hidden="true">
-<label for="collapse-section6" aria-hidden="true">V1.1.3 / 24-July-2023</label>
-<div>
-
-## Main changes
-- Add APIs to set/get FSM/MLC fifo_en bit
-
-##
-
-</div>
-
-<input type="checkbox" id="collapse-section7" aria-hidden="true">
-<label for="collapse-section7" aria-hidden="true">V1.1.4 / 27-July-2023</label>
-<div>
-
-## Main changes
-- moved all enum outside of struct to be C++ compliant
-
-##
-
-</div>
-
-<input type="checkbox" id="collapse-section8" aria-hidden="true">
-<label for="collapse-section8" aria-hidden="true">V1.2.0 / 27-Nov-2023</label>
-<div>
-
-## Main changes
-- Align driver to DS v3.0
-- Add wait BOOT/RESET/Power-Down as specified in AN5909
-
-##
-
-</div>
-
-<input type="checkbox" id="collapse-section9" aria-hidden="true">
-<label for="collapse-section9" aria-hidden="true">V2.0.0 / 20-Mar-2024</label>
-<div>
-
-## Main changes
-- Fixed code style (Artistic Style Version 3.4.13)
-- Add "const" to ctx arg for all APIs
-
-##
-
-</div>
-
-<input type="checkbox" id="collapse-section10" aria-hidden="true">
-<label for="collapse-section10" aria-hidden="true">V2.0.1 / 26-Mar-2024</label>
-<div>
-
-## Main changes
-- updated README.md file with tag reference and mdelay description
-
-##
-
-</div>
-
-<input type="checkbox" id="collapse-section11" aria-hidden="true">
-<label for="collapse-section11" aria-hidden="true">V2.0.2 / 11-Apr-2024</label>
-<div>
-
-## Main changes
-- Fix lis2dux12_mode_get API
-
-##
-
-</div>
-
-<input type="checkbox" id="collapse-section12" aria-hidden="true">
-<label for="collapse-section12" aria-hidden="true">V2.1.0 / 22-Apr-2024</label>
-<div>
-
-## Main changes
-- Aligned to DS Rev4
-
-##
-
-</div>
-
-<input type="checkbox" id="collapse-section13" aria-hidden="true">
-<label for="collapse-section13" aria-hidden="true">V2.2.0 / 17-May-2024</label>
-<div>
-
-## Main changes
-- fix some MISRA errors found with coverity
-
-##
-
-</div>
-
-<input type="checkbox" id="collapse-section14" aria-hidden="true">
-<label for="collapse-section14" aria-hidden="true">V2.2.1 / 25-Sept-2024</label>
-<div>
-
-## Main changes
-- Fix multiple byte read in ln_pg_read() API
-- (FIX) Return 6Hz_HP or 6_Hz_LP in mode_get API
-- Fix BW setting in mode_set API
-- Fix FIFO data get API
-- Fixed few typos
-
-##
-
-</div>
-
-<input type="checkbox" id="collapse-section15" aria-hidden="true">
-<label for="collapse-section15" aria-hidden="true">V2.3.0 / 18-Dec-2024</label>
+<input type="checkbox" id="collapse-section21" aria-hidden="true">
+<label for="collapse-section21" aria-hidden="true">V4.0.1 / 19-Nov-2025</label>
 <div>
 
 ## Main changes
 
-- revert fifo change according to review
-- Fix reading fifo register
-- Add smart_power configuration
-
-##
-
-</div>
-
-<input type="checkbox" id="collapse-section16" aria-hidden="true">
-<label for="collapse-section16" aria-hidden="true">V2.4.0 / 07-Apr-2025</label>
-<div>
-
-## Main changes
-
-- Aligned to DS rev7
-- fix RESET case in init_set()
-- Add fifo_event_t enum to set stop_on_fth bit
-- Use defines (and not numbers) as FIFO tags
-
-##
-
-</div>
-
-<input type="checkbox" id="collapse-section17" aria-hidden="true">
-<label for="collapse-section17" aria-hidden="true">V2.4.1 / 16-Apr-2025</label>
-<div>
-
-## Main changes
-
-- Fix fifo_mode_set
-
-##
-
-</div>
-
-<input type="checkbox" id="collapse-section18" aria-hidden="true">
-<label for="collapse-section18" aria-hidden="true">V2.5.0 / 07-Jul-2025</label>
-<div>
-
-## Main changes
-
-- Fix driver formatting options
-- Added pointer to private data in stmdev_ctx_t
-- Remove unused status parameter
-- Removed useless reg write in emb_fsm_en_get
-- Fix inact_odr_t enum variants
-
-##
-
-</div>
-
-<input type="checkbox" id="collapse-section19" aria-hidden="true">
-<label for="collapse-section19" aria-hidden="true">V3.0.0 / 07-Oct-2025</label>
-<div>
-
-## Main changes
-
-- Added checks before writes to avoid random content from being written
-- Changed fifo_mode_set API
-- Added missing read in stpcnt_mode_get function for 'step_counter_in_fifo' parameter
-- Adding CODE_OF_CONDUCT.md and SECURITY.md
-- Fix pin_int2_route_get API
+- (Fix) init 'ret' variable in mem_bank_get() API
 
 ##
 
@@ -284,32 +72,244 @@ This directory contains the LIS2DUX12 component drivers.
 
 </div>
 
-<input type="checkbox" id="collapse-section21" aria-hidden="true">
-<label for="collapse-section21" aria-hidden="true">V4.0.1 / 19-Nov-2025</label>
+<input type="checkbox" id="collapse-section19" aria-hidden="true">
+<label for="collapse-section19" aria-hidden="true">V3.0.0 / 07-Oct-2025</label>
 <div>
 
 ## Main changes
 
-- (Fix) init 'ret' variable in mem_bank_get() API
+- Added checks before writes to avoid random content from being written
+- Changed fifo_mode_set API
+- Added missing read in stpcnt_mode_get function for 'step_counter_in_fifo' parameter
+- Adding CODE_OF_CONDUCT.md and SECURITY.md
+- Fix pin_int2_route_get API
 
 ##
 
 </div>
 
-<input type="checkbox" id="collapse-section22" checked aria-hidden="true">
-<label for="collapse-section22" aria-hidden="true">V5.0.0 / 15-Jan-2026</label>
+<input type="checkbox" id="collapse-section18" aria-hidden="true">
+<label for="collapse-section18" aria-hidden="true">V2.5.0 / 07-Jul-2025</label>
 <div>
 
 ## Main changes
 
-- Fix wake_dur_t enum definition and its usage in wakeup_config_set/get
-- Fix smart_power_cfg_t bitfield size
-- Fix i3c_if_ctrl bit order and i3c_configure_get API
-- Split pin_int struct into pin_int1 and pin_int2
+- Fix driver formatting options
+- Added pointer to private data in stmdev_ctx_t
+- Remove unused status parameter
+- Removed useless reg write in emb_fsm_en_get
+- Fix inact_odr_t enum variants
 
 ##
 
 </div>
+
+<input type="checkbox" id="collapse-section17" aria-hidden="true">
+<label for="collapse-section17" aria-hidden="true">V2.4.1 / 16-Apr-2025</label>
+<div>
+
+## Main changes
+
+- Fix fifo_mode_set
+
+##
+
+</div>
+
+<input type="checkbox" id="collapse-section16" aria-hidden="true">
+<label for="collapse-section16" aria-hidden="true">V2.4.0 / 07-Apr-2025</label>
+<div>
+
+## Main changes
+
+- Aligned to DS rev7
+- fix RESET case in init_set()
+- Add fifo_event_t enum to set stop_on_fth bit
+- Use defines (and not numbers) as FIFO tags
+
+##
+
+</div>
+
+<input type="checkbox" id="collapse-section15" aria-hidden="true">
+<label for="collapse-section15" aria-hidden="true">V2.3.0 / 18-Dec-2024</label>
+<div>
+
+## Main changes
+
+- revert fifo change according to review
+- Fix reading fifo register
+- Add smart_power configuration
+
+##
+
+</div>
+
+<input type="checkbox" id="collapse-section14" aria-hidden="true">
+<label for="collapse-section14" aria-hidden="true">V2.2.1 / 25-Sept-2024</label>
+<div>
+
+## Main changes
+- Fix multiple byte read in ln_pg_read() API
+- (FIX) Return 6Hz_HP or 6_Hz_LP in mode_get API
+- Fix BW setting in mode_set API
+- Fix FIFO data get API
+- Fixed few typos
+
+##
+
+</div>
+
+<input type="checkbox" id="collapse-section13" aria-hidden="true">
+<label for="collapse-section13" aria-hidden="true">V2.2.0 / 17-May-2024</label>
+<div>
+
+## Main changes
+- fix some MISRA errors found with coverity
+
+##
+
+</div>
+
+<input type="checkbox" id="collapse-section12" aria-hidden="true">
+<label for="collapse-section12" aria-hidden="true">V2.1.0 / 22-Apr-2024</label>
+<div>
+
+## Main changes
+- Aligned to DS Rev4
+
+##
+
+</div>
+
+<input type="checkbox" id="collapse-section11" aria-hidden="true">
+<label for="collapse-section11" aria-hidden="true">V2.0.2 / 11-Apr-2024</label>
+<div>
+
+## Main changes
+- Fix lis2dux12_mode_get API
+
+##
+
+</div>
+
+<input type="checkbox" id="collapse-section10" aria-hidden="true">
+<label for="collapse-section10" aria-hidden="true">V2.0.1 / 26-Mar-2024</label>
+<div>
+
+## Main changes
+- updated README.md file with tag reference and mdelay description
+
+##
+
+</div>
+
+<input type="checkbox" id="collapse-section9" aria-hidden="true">
+<label for="collapse-section9" aria-hidden="true">V2.0.0 / 20-Mar-2024</label>
+<div>
+
+## Main changes
+- Fixed code style (Artistic Style Version 3.4.13)
+- Add "const" to ctx arg for all APIs
+
+##
+
+</div>
+
+<input type="checkbox" id="collapse-section8" aria-hidden="true">
+<label for="collapse-section8" aria-hidden="true">V1.2.0 / 27-Nov-2023</label>
+<div>
+
+## Main changes
+- Align driver to DS v3.0
+- Add wait BOOT/RESET/Power-Down as specified in AN5909
+
+##
+
+</div>
+
+<input type="checkbox" id="collapse-section7" aria-hidden="true">
+<label for="collapse-section7" aria-hidden="true">V1.1.4 / 27-July-2023</label>
+<div>
+
+## Main changes
+- moved all enum outside of struct to be C++ compliant
+
+##
+
+</div>
+
+<input type="checkbox" id="collapse-section6" aria-hidden="true">
+<label for="collapse-section6" aria-hidden="true">V1.1.3 / 24-July-2023</label>
+<div>
+
+## Main changes
+- Add APIs to set/get FSM/MLC fifo_en bit
+
+##
+
+</div>
+
+<input type="checkbox" id="collapse-section5" aria-hidden="true">
+<label for="collapse-section5" aria-hidden="true">V1.1.2 / 28-June-2023</label>
+<div>
+
+## Main changes
+- Fix typos in ODR define names
+
+##
+
+</div>
+
+<input type="checkbox" id="collapse-section4" aria-hidden="true">
+<label for="collapse-section4" aria-hidden="true">V1.1.1 / 21-June-2023</label>
+<div>
+
+## Main changes
+- Fix a typo in pin_int2_route_set
+
+##
+
+</div>
+
+<input type="checkbox" id="collapse-section3" aria-hidden="true">
+<label for="collapse-section3" aria-hidden="true">V1.1.0 / 01-June-2023</label>
+<div>
+
+## Main changes
+- lis2dux12_reg.c(h): Fix struct and enum names
+
+##
+
+</div>
+
+<input type="checkbox" id="collapse-section2" aria-hidden="true">
+<label for="collapse-section2" aria-hidden="true">V1.0.1 / 07-April-2023</label>
+<div>
+
+## Main changes
+- fix defines for low power ODRs
+- Fix BW setting for LP mode with ODR < 50 Hz
+
+
+##
+
+</div>
+
+<input type="checkbox" id="collapse-section1" aria-hidden="true">
+<label for="collapse-section1" aria-hidden="true">V1.0.0 / 14-November-2022</label>
+<div>
+
+## Main changes
+
+### First release
+
+- First official release [ref. DS v2.0]
+
+##
+
+</div>
+
 :::
 
 
