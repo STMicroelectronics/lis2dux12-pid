@@ -30,7 +30,20 @@ This directory contains the LIS2DUX12 component drivers.
 # Update history
 
 ::: {.collapse}
-<input type="checkbox" id="collapse-section22" checked aria-hidden="true">
+<input type="checkbox" id="collapse-section23" checked aria-hidden="true">
+<label for="collapse-section23" aria-hidden="true">V5.1.0 / 03-Mar-2026</label>
+<div>
+
+## Main changes
+
+- Re-order update history with most updated on top
+- Move doxygen comment blocks from .c to .h
+
+##
+
+</div>
+
+<input type="checkbox" id="collapse-section22" aria-hidden="true">
 <label for="collapse-section22" aria-hidden="true">V5.0.0 / 15-Jan-2026</label>
 <div>
 
@@ -44,6 +57,7 @@ This directory contains the LIS2DUX12 component drivers.
 ##
 
 </div>
+
 <input type="checkbox" id="collapse-section21" aria-hidden="true">
 <label for="collapse-section21" aria-hidden="true">V4.0.1 / 19-Nov-2025</label>
 <div>
