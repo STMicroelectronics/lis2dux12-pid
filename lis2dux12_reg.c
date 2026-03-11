@@ -772,19 +772,19 @@ int32_t lis2dux12_self_test_sign_set(const stmdev_ctx_t *ctx, lis2dux12_xl_self_
 
   switch (val)
   {
-    case LIS2DUX12_XL_ST_POSITIVE:
+    case 0x01:
       ctrl3.st_sign_x = 1;
       ctrl3.st_sign_y = 1;
       wkup_dur.st_sign_z = 0;
       break;
 
-    case LIS2DUX12_XL_ST_NEGATIVE:
+    case 0x02:
       ctrl3.st_sign_x = 0;
       ctrl3.st_sign_y = 0;
       wkup_dur.st_sign_z = 1;
       break;
 
-    case LIS2DUX12_XL_ST_DISABLE:
+    case 0x00:
     default:
       ret = -1;
       break;
@@ -865,19 +865,19 @@ int32_t lis2dux12_i3c_configure_get(const stmdev_ctx_t *ctx, lis2dux12_i3c_cfg_t
 
   switch (i3c_cfg.bus_act_sel)
   {
-    case LIS2DUX12_I3C_BUS_AVAIL_TIME_20US:
+    case 0x00:
       val->bus_act_sel = LIS2DUX12_I3C_BUS_AVAIL_TIME_20US;
       break;
 
-    case LIS2DUX12_I3C_BUS_AVAIL_TIME_50US:
+    case 0x01:
       val->bus_act_sel = LIS2DUX12_I3C_BUS_AVAIL_TIME_50US;
       break;
 
-    case LIS2DUX12_I3C_BUS_AVAIL_TIME_1MS:
+    case 0x02:
       val->bus_act_sel = LIS2DUX12_I3C_BUS_AVAIL_TIME_1MS;
       break;
 
-    case LIS2DUX12_I3C_BUS_AVAIL_TIME_25MS:
+    case 0x03:
     default:
       val->bus_act_sel = LIS2DUX12_I3C_BUS_AVAIL_TIME_25MS;
       break;
