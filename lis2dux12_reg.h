@@ -2711,7 +2711,7 @@ int32_t lis2dux12_spi_mode_get(const stmdev_ctx_t *ctx, lis2dux12_spi_mode *val)
 
 typedef struct
 {
-  uint8_t int_on_res                   : 1; /* Interrupt on RES pin */
+  uint8_t int_on_res                   : 1; /* Interrupt on RES pin (only INT1) */
   uint8_t drdy                         : 1; /* Accelerometer data ready */
   uint8_t boot                         : 1; /* Restoring calibration parameters */
   uint8_t fifo_th                      : 1; /* FIFO threshold reached */
@@ -2724,23 +2724,7 @@ typedef struct
   uint8_t sleep_change                 : 1; /* Act/Inact (or Vice-versa) status changed */
   uint8_t emb_function                 : 1; /* Embedded Function */
   uint8_t timestamp                    : 1; /* Timestamp */
-} lis2dux12_pin_int1_route_t;
-
-typedef struct
-{
-  uint8_t drdy                         : 1; /* Accelerometer data ready */
-  uint8_t boot                         : 1; /* Restoring calibration parameters */
-  uint8_t fifo_th                      : 1; /* FIFO threshold reached */
-  uint8_t fifo_ovr                     : 1; /* FIFO overrun */
-  uint8_t fifo_full                    : 1; /* FIFO full */
-  uint8_t free_fall                    : 1; /* free fall event */
-  uint8_t six_d                        : 1; /* orientation change (6D/4D detection) */
-  uint8_t tap                          : 1; /* all tap event */
-  uint8_t wake_up                      : 1; /* wake up event */
-  uint8_t sleep_change                 : 1; /* Act/Inact (or Vice-versa) status changed */
-  uint8_t emb_function                 : 1; /* Embedded Function */
-  uint8_t timestamp                    : 1; /* Timestamp */
-} lis2dux12_pin_int2_route_t;
+} lis2dux12_pin_int_route_t;
 
 /**
   * @brief  routes interrupt signals on INT 1 pin.[set]
@@ -2751,7 +2735,7 @@ typedef struct
   *
   */
 int32_t lis2dux12_pin_int1_route_set(const stmdev_ctx_t *ctx,
-                                     const lis2dux12_pin_int1_route_t *val);
+                                     const lis2dux12_pin_int_route_t *val);
 
 /**
   * @brief  routes interrupt signals on INT 1 pin.[get]
@@ -2762,7 +2746,7 @@ int32_t lis2dux12_pin_int1_route_set(const stmdev_ctx_t *ctx,
   *
   */
 int32_t lis2dux12_pin_int1_route_get(const stmdev_ctx_t *ctx,
-                                     lis2dux12_pin_int1_route_t *val);
+                                     lis2dux12_pin_int_route_t *val);
 /**
   * @brief  routes interrupt signals on INT 2 pin.[set]
   *
@@ -2772,7 +2756,7 @@ int32_t lis2dux12_pin_int1_route_get(const stmdev_ctx_t *ctx,
   *
   */
 int32_t lis2dux12_pin_int2_route_set(const stmdev_ctx_t *ctx,
-                                     const lis2dux12_pin_int2_route_t *val);
+                                     const lis2dux12_pin_int_route_t *val);
 /**
   * @brief  routes interrupt signals on INT 2 pin.[get]
   *
@@ -2782,7 +2766,7 @@ int32_t lis2dux12_pin_int2_route_set(const stmdev_ctx_t *ctx,
   *
   */
 int32_t lis2dux12_pin_int2_route_get(const stmdev_ctx_t *ctx,
-                                     lis2dux12_pin_int2_route_t *val);
+                                     lis2dux12_pin_int_route_t *val);
 
 typedef struct
 {
