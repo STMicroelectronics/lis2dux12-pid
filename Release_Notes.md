@@ -30,7 +30,21 @@ This directory contains the LIS2DUX12 component drivers.
 # Update history
 
 ::: {.collapse}
-<input type="checkbox" id="collapse-section24" checked aria-hidden="true">
+<input type="checkbox" id="collapse-section25" checked aria-hidden="true">
+<label for="collapse-section25" aria-hidden="true">V5.1.2 / 08-Oct-2026</label>
+<div>
+
+## Main changes
+
+- Fix gcc and clang warnings
+- Fix MISRA issues
+- Add variable initialization in all APIs
+
+##
+
+</div>
+
+<input type="checkbox" id="collapse-section24" aria-hidden="true">
 <label for="collapse-section24" aria-hidden="true">V5.1.1 / 18-Mar-2026</label>
 <div>
 
