@@ -2633,7 +2633,7 @@ typedef struct
   uint8_t sdo_pull_up                  : 1; /* 1 = pull up enable */
   uint8_t sda_pull_up                  : 1; /* 1 = pull up enable */
   uint8_t cs_pull_up                   : 1; /* 1 = pull up enable */
-  uint8_t int1_int2_push_pull          : 1; /* 1 = push-pull / 0 = open-drain*/
+  uint8_t int1_int2_push_pull          : 1; /* 1 = open-drain / 0 = push-pull */
   uint8_t int1_pull_down               : 1; /* 1 = pull-down always disabled (0=auto) */
   uint8_t int2_pull_down               : 1; /* 1 = pull-down always disabled (0=auto) */
 } lis2dux12_pin_conf_t;
